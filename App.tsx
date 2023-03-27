@@ -1,41 +1,27 @@
 import { StyleSheet, Text, View } from "react-native";
+import { AppBar } from "./src/components/AppBar";
+import { DiaryBalanceList } from "./src/components/DiaryBalanceList";
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <View style={styles.appbar}>
-        <View style={styles.appbarInner}>
-          <Text style={styles.appbarTitle}>家計簿</Text>
-          <Text style={styles.appbarRight}>+</Text>
+      <AppBar />
+      <View style={styles.totalBalanceDate}>
+        <Text style={styles.totalBalanceDateArrow}>＜</Text>
+        <Text style={styles.totalBalanceDateTitle}>2023年11月</Text>
+        <Text style={styles.totalBalanceDateArrow}>＞</Text>
+      </View>
+      <View style={styles.incomeExpenseBox}>
+        <View style={styles.incomeExpenseInnerBox}>
+          <Text>収入</Text>
+          <Text>+￥5,000</Text>
+        </View>
+        <View style={styles.incomeExpenseInnerBox}>
+          <Text>支出</Text>
+          <Text>-￥3,000</Text>
         </View>
       </View>
-      <View style={styles.diaryBalanceListItem}>
-        <View>
-          <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
-          <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
-        </View>
-        <View>
-          <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
-        </View>
-      </View>
-      <View style={styles.diaryBalanceListItem}>
-        <View>
-          <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
-          <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
-        </View>
-        <View>
-          <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
-        </View>
-      </View>
-      <View style={styles.diaryBalanceListItem}>
-        <View>
-          <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
-          <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
-        </View>
-        <View>
-          <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
-        </View>
-      </View>
+      <DiaryBalanceList />
     </View>
   );
 }
@@ -43,31 +29,36 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F0F4F8",
+    backgroundColor: "#FFFFFF",
   },
-  appbar: {
-    width: "100%",
-    height: 64,
-    backgroundColor: "#F0F4F8",
-    justifyContent: "flex-end",
-    borderBottomWidth: 0.5,
-    borderBottomColor: "#C1C1C1",
-  },
-  appbarInner: {
+  totalBalanceDate: {
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
+    marginHorizontal: 20,
+    height: 50,
   },
-  appbarTitle: {
-    marginBottom: 5,
+  totalBalanceDateArrow: {
     fontSize: 20,
     lineHeight: 32,
-    fontWeight: "bold",
-    color: "#525252",
+    marginTop: 1,
   },
-  appbarRight: {
-    position: "absolute",
-    right: 19,
-    bottom: 10,
-    color: "#525252",
+  totalBalanceDateTitle: {
+    fontSize: 20,
+    fontWeight: "400",
+    lineHeight: 32,
+    color: "#D6423A",
+    paddingHorizontal: 50,
+    backgroundColor: "#F2F2F6",
+  },
+  incomeExpenseBox: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+  },
+  incomeExpenseInnerBox: {
+    flexDirection: "row",
+    borderWidth: 1,
+    // padd
   },
   diaryBalanceListItem: {
     backgroundColor: "#FFFFFF",
