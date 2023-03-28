@@ -8,11 +8,13 @@ import { useState } from "react";
 import DropDownPicker from "react-native-dropdown-picker";
 
 export default function App() {
-  const [open, setOpen] = useState(true);
-  const [value, setValue] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [value, setValue] = useState(null);
   const [items, setItems] = useState([
-    { label: "Apple", value: "apple" },
-    { label: "Banana", value: "banana" },
+    { label: "日付が新しい順", value: "newest" },
+    { label: "日付が古い順", value: "oldest" },
+    { label: "金額が高い順", value: "highest" },
+    { label: "金額が安い順", value: "lowest" },
   ]);
   return (
     <View style={styles.container}>
@@ -21,23 +23,19 @@ export default function App() {
       <IncomeExpenseTotal />
       <BalanceTotal />
       <View style={styles.sortContainer}>
-        <Text>aaa</Text>
-      </View>
-      <View>
-        <Text>aaa</Text>
         <DropDownPicker
-          multiple={true}
-          min={0}
-          max={2}
           open={open}
           value={value}
           items={items}
           setOpen={setOpen}
           setValue={setValue}
           setItems={setItems}
+          style={{ minHeight: 30 }}
+          containerStyle={styles.sortDropDown}
+          placeholder="新しい順"
         />
       </View>
-      <DiaryBalanceList />
+      {/* <DiaryBalanceList /> */}
     </View>
   );
 }
@@ -51,7 +49,16 @@ const styles = StyleSheet.create({
     backgroundColor: "#F2F2F6",
     borderBottomWidth: 0.5,
     borderBottomColor: "rgba(0, 0, 0, 0.5)",
-    height: 35,
+    height: 40,
     marginTop: 10,
+    zIndex: 1,
+  },
+  sortDropDown: {
+    flex: 1,
+    width: "40%",
+    alignSelf: "flex-end",
+    fontSize: 12,
+    justifyContent: "center",
+    paddingRight: 10,
   },
 });
