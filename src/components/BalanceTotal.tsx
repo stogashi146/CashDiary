@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export const BalanceTotal = () => {
+export const BalanceTotal: React.FC = () => {
   return (
     <View style={styles.balanceBox}>
       <Text style={styles.balanceLabel}>収支</Text>

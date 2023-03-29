@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export const IncomeExpenseTotal = () => {
+export const IncomeExpenseTotal: React.FC = () => {
   return (
     <View style={styles.incomeExpenseContainer}>
       <View style={styles.incomeExpenseInnerContainer}>

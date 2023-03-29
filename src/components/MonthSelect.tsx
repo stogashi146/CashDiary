@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-export const MonthSelect = () => {
+export const MonthSelect: React.FC = () => {
   return (
     <View style={styles.monthContainer}>
       <Text style={styles.monthArrow}>＜</Text>
