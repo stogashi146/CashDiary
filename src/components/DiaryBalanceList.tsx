@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     //要素間にスペースを開ける
     justifyContent: "space-between",
     alignItems: "flex-end",
-    paddingVertical: 16,
+    paddingVertical: 12,
     paddingHorizontal: 19,
     borderBottomWidth: 1,
     borderColor: "rgba(0,0,0,0.15)",

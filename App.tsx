@@ -6,7 +6,9 @@ import { IncomeExpenseTotal } from "./src/components/IncomeExpenseTotal";
 import { BalanceTotal } from "./src/components/BalanceTotal";
 import { SortPicker } from "./src/components/SortPicker";
 import { DiaryListScreen } from "./src/screens/DiaryListScreen";
+import { DiaryDetailScreen } from "./src/screens/DiaryDetailScreen";
 
 export default function App() {
-  return <DiaryListScreen />;
+  // return <DiaryListScreen />;
+  return <DiaryDetailScreen />;
 }

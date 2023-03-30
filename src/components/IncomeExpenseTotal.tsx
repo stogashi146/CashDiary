@@ -1,7 +1,19 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View, ViewStyle } from "react-native";
 
-export const IncomeExpenseTotal: React.FC = () => {
+interface IncomeExpenseTotalProps {
+  style?: ViewStyle;
+}
+
+export const IncomeExpenseTotal: React.FC<IncomeExpenseTotalProps> = (
+  props
+) => {
+  const { style } = props;
+  const combinedStyles = StyleSheet.compose(
+    styles.incomeExpenseContainer,
+    style
+  );
+
   return (
     <View style={styles.incomeExpenseContainer}>
       <View style={styles.incomeExpenseInnerContainer}>
