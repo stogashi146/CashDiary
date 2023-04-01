@@ -7,8 +7,9 @@ import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
 import { SortPicker } from "../components/SortPicker";
 import { DiaryBalanceList } from "../components/DiaryBalanceList";
-import { DiaryDetail } from "../components/DiaryDetail";
+import { DiaryEntryDetail } from "../components/DiaryEntryDetail";
 import { AddBalance } from "../components/AddBalance";
+import { DiaryEntryForm } from "../components/DiaryEntryForm";
 
 export const DiaryEditScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
@@ -29,7 +30,7 @@ export const DiaryEditScreen: React.FC = () => {
       </View>
       {selectedIndex == 0 ? (
         <View>
-          <DiaryDetail />
+          <DiaryEntryForm />
         </View>
       ) : (
         <View>

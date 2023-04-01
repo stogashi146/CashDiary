@@ -1,8 +1,13 @@
 import { StyleSheet, Text, View } from "react-native";
+import { EvilIcons } from "@expo/vector-icons";
 
-export const DiaryDetail = () => {
+export const DiaryEntryForm = () => {
   return (
     <View style={styles.diaryContainer}>
+      <View style={styles.diaryDateContainer}>
+        <EvilIcons name="calendar" size={38} color="black" />
+        <Text style={styles.diaryDateText}>2023/1/2(月)</Text>
+      </View>
       <View style={styles.diaryTitleContainer}>
         <Text style={styles.diaryTitleText}>映画を見に行った</Text>
       </View>
@@ -21,16 +26,27 @@ const styles = StyleSheet.create({
   diaryContainer: {
     alignItems: "center",
   },
+  diaryDateContainer: {
+    width: "90%",
+    flexDirection: "row",
+    alignItems: "center",
+    borderColor: "rgba(0,0,0,1)",
+    borderTopWidth: 0.5,
+    paddingVertical: 10,
+  },
+  diaryDateText: {
+    fontSize: 19,
+    paddingLeft: 10,
+  },
   diaryTitleContainer: {
     width: "90%",
     borderBottomWidth: 0.5,
     borderColor: "rgba(0,0,0,1)",
     borderTopWidth: 0.5,
-
     paddingVertical: 3,
   },
   diaryTitleText: {
-    fontSize: 18,
+    fontSize: 22,
     padding: 8,
   },
   diaryContentContainer: {
@@ -38,7 +54,7 @@ const styles = StyleSheet.create({
     height: "80%",
   },
   diaryContentText: {
-    fontSize: 16,
+    fontSize: 18,
     padding: 10,
   },
 });
