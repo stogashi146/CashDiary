@@ -1,12 +1,17 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 export const MonthSelect: React.FC = () => {
   return (
     <View style={styles.monthContainer}>
-      <Text style={styles.monthArrow}>＜</Text>
+      <Text style={styles.monthArrow}>
+        <AntDesign name="left" size={24} color="black" />
+      </Text>
       <Text style={styles.monthTitle}>2023年11月</Text>
-      <Text style={styles.monthArrow}>＞</Text>
+      <Text style={styles.monthArrow}>
+        <AntDesign name="right" size={24} color="black" />
+      </Text>
     </View>
   );
 };

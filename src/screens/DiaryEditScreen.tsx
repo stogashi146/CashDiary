@@ -10,7 +10,7 @@ import { DiaryBalanceList } from "../components/DiaryBalanceList";
 import { DiaryDetail } from "../components/DiaryDetail";
 import { AddBalance } from "../components/AddBalance";
 
-export const DiaryDetailScreen: React.FC = () => {
+export const DiaryEditScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -55,31 +55,5 @@ const styles = StyleSheet.create({
   tabControl: {
     width: "80%",
     marginVertical: 10,
-  },
-  addBalanceContainer: {
-    alignItems: "center",
-  },
-  addBalanceRow: {
-    width: "90%",
-    height: 50,
-    borderWidth: 1,
-    borderColor: "#E1E1E1",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  addBalanceLabel: {
-    position: "absolute",
-    left: 20,
-    fontSize: 12,
-  },
-  addBalanceText: {
-    textAlign: "center",
-    fontSize: 16,
-  },
-  addButtonContainer: {
-    width: "90%",
-    height: 50,
-    marginTop: 5,
   },
 });

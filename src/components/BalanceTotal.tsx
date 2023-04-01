@@ -1,11 +1,15 @@
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 export const BalanceTotal: React.FC = () => {
   return (
     <View style={styles.balanceBox}>
       <Text style={styles.balanceLabel}>収支</Text>
-      <Text style={styles.balanceAmount}>+￥2,000</Text>
+      <Text style={styles.balanceAmount}>
+        <AntDesign name="plus" size={24} color={"black"} />
+        ￥2,000
+      </Text>
     </View>
   );
 };

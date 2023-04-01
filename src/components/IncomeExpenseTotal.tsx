@@ -1,5 +1,6 @@
 import React from "react";
 import { StyleSheet, Text, View, ViewStyle } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 interface IncomeExpenseTotalProps {
   style?: ViewStyle;
@@ -18,11 +19,17 @@ export const IncomeExpenseTotal: React.FC<IncomeExpenseTotalProps> = (
     <View style={styles.incomeExpenseContainer}>
       <View style={styles.incomeExpenseInnerContainer}>
         <Text style={styles.incomeExpenseInnerLabel}>収入</Text>
-        <Text style={styles.incomeInnerAmount}>+￥5,000</Text>
+        <Text style={styles.incomeInnerAmount}>
+          <AntDesign name="plus" size={16} iconStyle={styles.incomeIcon} />
+          ￥5,000
+        </Text>
       </View>
       <View style={styles.incomeExpenseInnerContainer}>
         <Text style={styles.incomeExpenseInnerLabel}>支出</Text>
-        <Text style={styles.expenseInnerAmount}>-￥3,000</Text>
+        <Text style={styles.expenseInnerAmount}>
+          <AntDesign name="plus" size={16} iconStyle={styles.expenseIcon} />
+          ￥3,000
+        </Text>
       </View>
     </View>
   );
@@ -49,9 +56,15 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: "#0094FF",
   },
+  incomeIcon: {
+    color: "#0094FF",
+  },
   expenseInnerAmount: {
     fontSize: 20,
     fontWeight: "500",
+    color: "#FF0000",
+  },
+  expenseIcon: {
     color: "#FF0000",
   },
 });
