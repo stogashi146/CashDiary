@@ -7,7 +7,7 @@ import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
 import { SortPicker } from "../components/SortPicker";
 import { DiaryBalanceList } from "../components/DiaryBalanceList";
-import { DiaryDetail } from "../components/DiaryEntryDetail";
+import { DiaryEntryDetail } from "../components/DiaryEntryDetail";
 import { AddBalance } from "../components/AddBalance";
 
 export const DiaryDetailScreen: React.FC = () => {
@@ -29,7 +29,7 @@ export const DiaryDetailScreen: React.FC = () => {
       </View>
       {selectedIndex == 0 ? (
         <View>
-          <DiaryDetail />
+          <DiaryEntryDetail />
         </View>
       ) : (
         <View>

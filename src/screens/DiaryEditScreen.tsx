@@ -1,7 +1,13 @@
 import React from "react";
 import { useState } from "react";
 import { AppBar } from "../components/AppBar";
-import { StyleSheet, Text, View } from "react-native";
+import {
+  KeyboardAvoidingView,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
@@ -16,7 +22,7 @@ export const DiaryEditScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding">
       <AppBar />
       <View style={styles.tabContainer}>
         <SegmentedControl
@@ -29,9 +35,9 @@ export const DiaryEditScreen: React.FC = () => {
         />
       </View>
       {selectedIndex == 0 ? (
-        <View>
+        <ScrollView>
           <DiaryEntryForm />
-        </View>
+        </ScrollView>
       ) : (
         <View>
           <IncomeExpenseTotal />
@@ -41,7 +47,7 @@ export const DiaryEditScreen: React.FC = () => {
           <AddBalance />
         </View>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 
@@ -56,5 +62,11 @@ const styles = StyleSheet.create({
   tabControl: {
     width: "80%",
     marginVertical: 10,
+  },
+  a: {
+    // position: "absolute",
+    // width: "100%",
+    // right: 0,
+    // bottom: -10,
   },
 });

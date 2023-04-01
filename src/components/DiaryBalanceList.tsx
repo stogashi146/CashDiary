@@ -1,9 +1,9 @@
-import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React, { useState } from "react";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export const DiaryBalanceList: React.FC = () => {
   return (
-    <View>
+    <ScrollView>
       <View style={styles.diaryBalanceListItem}>
         <View>
           <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
@@ -31,7 +31,7 @@ export const DiaryBalanceList: React.FC = () => {
           <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

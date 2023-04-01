@@ -1,22 +1,80 @@
-import { StyleSheet, Text, View } from "react-native";
+import {
+  Button,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Dimensions,
+  KeyboardAvoidingView,
+} from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
+import { useState } from "react";
+import { formatDateWithWeekday } from "../utils/dateFormat";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 export const DiaryEntryForm = () => {
+  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [diaryTitle, setDiaryTitle] = useState("");
+  const [diaryContent, setDiaryContent] = useState(
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  );
+  const { height } = Dimensions.get("window");
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (date: Date) => {
+    setSelectedDate(date);
+    hideDatePicker();
+  };
   return (
     <View style={styles.diaryContainer}>
-      <View style={styles.diaryDateContainer}>
+      <TouchableOpacity
+        onPress={showDatePicker}
+        style={styles.diaryDateContainer}
+        activeOpacity={1}
+      >
         <EvilIcons name="calendar" size={38} color="black" />
-        <Text style={styles.diaryDateText}>2023/1/2(月)</Text>
-      </View>
+        <Text style={styles.diaryDateText}>
+          {formatDateWithWeekday(selectedDate)}
+        </Text>
+        <DateTimePickerModal
+          date={selectedDate}
+          isVisible={isDatePickerVisible}
+          mode="date"
+          display="inline"
+          onConfirm={handleConfirm}
+          onCancel={hideDatePicker}
+          confirmTextIOS="決定"
+          cancelTextIOS="キャンセル"
+        />
+      </TouchableOpacity>
+
       <View style={styles.diaryTitleContainer}>
-        <Text style={styles.diaryTitleText}>映画を見に行った</Text>
+        <TextInput
+          style={styles.diaryTitleText}
+          onChangeText={(text) => {
+            setDiaryTitle(text);
+          }}
+          value={diaryTitle}
+        />
       </View>
       <View style={styles.diaryContentContainer}>
-        <Text style={styles.diaryContentText}>
-          誰々と映画を見に行った。 Winnyを見た。
-          面白かった誰々と映画を見に行った。 Winnyを見た。
-          面白かった誰々と映画を見に行った。 Winnyを見た。 面白かった
-        </Text>
+        <TextInput
+          style={[styles.diaryContentText, { height: height / 2 }]}
+          multiline
+          onChangeText={(text) => {
+            setDiaryContent(text);
+          }}
+          value={diaryContent}
+        />
       </View>
     </View>
   );
@@ -51,10 +109,9 @@ const styles = StyleSheet.create({
   },
   diaryContentContainer: {
     width: "90%",
-    height: "80%",
   },
   diaryContentText: {
-    fontSize: 18,
-    padding: 10,
+    padding: 12,
+    fontSize: 20,
   },
 });
