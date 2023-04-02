@@ -84,11 +84,9 @@ export const AddBalance: React.FC = () => {
 const styles = StyleSheet.create({
   addBalanceContainer: {
     alignItems: "center",
-    // position: "absolute",
-    // bottom: -400,
-    // top: 0,
-    left: 0,
-    right: 0,
+    // 画面下部に固定表示するため、position: "absolute"を指定
+    position: "absolute",
+    bottom: 0,
   },
   addBalanceRow: {
     width: "90%",

@@ -7,11 +7,14 @@ import {
   View,
   Dimensions,
   KeyboardAvoidingView,
+  ScrollView,
+  Platform,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { formatDateWithWeekday } from "../utils/dateFormat";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import getInset from "react-native-safe-area-view";
 
 export const DiaryEntryForm = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -34,8 +37,9 @@ export const DiaryEntryForm = () => {
     setSelectedDate(date);
     hideDatePicker();
   };
+
   return (
-    <View style={styles.diaryContainer}>
+    <ScrollView contentContainerStyle={styles.diaryContainer}>
       <TouchableOpacity
         onPress={showDatePicker}
         style={styles.diaryDateContainer}
@@ -68,15 +72,16 @@ export const DiaryEntryForm = () => {
       </View>
       <View style={styles.diaryContentContainer}>
         <TextInput
-          style={[styles.diaryContentText, { height: height / 2 }]}
+          style={[styles.diaryContentText]}
           multiline
           onChangeText={(text) => {
             setDiaryContent(text);
           }}
           value={diaryContent}
+          scrollEnabled={false}
         />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -87,7 +92,7 @@ const styles = StyleSheet.create({
   diaryDateContainer: {
     width: "90%",
     flexDirection: "row",
-    alignItems: "center",
+    // alignItems: "center",
     borderColor: "rgba(0,0,0,1)",
     borderTopWidth: 0.5,
     paddingVertical: 10,
@@ -109,9 +114,10 @@ const styles = StyleSheet.create({
   },
   diaryContentContainer: {
     width: "90%",
+    flexGrow: 1,
   },
   diaryContentText: {
     padding: 12,
-    fontSize: 20,
+    fontSize: 18,
   },
 });

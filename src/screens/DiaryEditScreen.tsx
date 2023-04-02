@@ -22,7 +22,7 @@ export const DiaryEditScreen: React.FC = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
-    <KeyboardAvoidingView style={styles.container} behavior="padding">
+    <View style={styles.container}>
       <AppBar />
       <View style={styles.tabContainer}>
         <SegmentedControl
@@ -35,9 +35,9 @@ export const DiaryEditScreen: React.FC = () => {
         />
       </View>
       {selectedIndex == 0 ? (
-        <ScrollView>
+        <View>
           <DiaryEntryForm />
-        </ScrollView>
+        </View>
       ) : (
         <View>
           <IncomeExpenseTotal />
@@ -47,7 +47,7 @@ export const DiaryEditScreen: React.FC = () => {
           <AddBalance />
         </View>
       )}
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 
