@@ -16,38 +16,51 @@ import { DiaryBalanceList } from "../components/DiaryBalanceList";
 import { DiaryEntryDetail } from "../components/DiaryEntryDetail";
 import { AddBalance } from "../components/AddBalance";
 import { DiaryEntryForm } from "../components/DiaryEntryForm";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const DiaryEditScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
 
   return (
-    <View style={styles.container}>
-      <AppBar />
-      <View style={styles.tabContainer}>
-        <SegmentedControl
-          values={["日記", "家計簿"]}
-          selectedIndex={selectedIndex}
-          onChange={(event: any) => {
-            setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
-          }}
-          style={styles.tabControl}
-        />
-      </View>
-      {selectedIndex == 0 ? (
-        <View>
-          <DiaryEntryForm />
-        </View>
-      ) : (
-        <View>
-          <IncomeExpenseTotal />
-          <BalanceTotal />
-          <SortPicker />
-          <DiaryBalanceList />
-          <AddBalance />
-        </View>
-      )}
-    </View>
+    <KeyboardAvoidingView style={styles.container} behavior="height">
+      <SafeAreaView>
+        <AppBar />
+        {selectedIndex == 0 ? (
+          <ScrollView>
+            <View style={styles.tabContainer}>
+              <SegmentedControl
+                values={["日記", "家計簿"]}
+                selectedIndex={selectedIndex}
+                onChange={(event: any) => {
+                  setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+                }}
+                style={styles.tabControl}
+              />
+            </View>
+            <DiaryEntryForm />
+          </ScrollView>
+        ) : (
+          <View>
+            <View style={styles.tabContainer}>
+              <SegmentedControl
+                values={["日記", "家計簿"]}
+                selectedIndex={selectedIndex}
+                onChange={(event: any) => {
+                  setSelectedIndex(event.nativeEvent.selectedSegmentIndex);
+                }}
+                style={styles.tabControl}
+              />
+            </View>
+            <IncomeExpenseTotal />
+            <BalanceTotal />
+            <SortPicker />
+            <DiaryBalanceList />
+            <AddBalance />
+          </View>
+        )}
+      </SafeAreaView>
+    </KeyboardAvoidingView>
   );
 };
 

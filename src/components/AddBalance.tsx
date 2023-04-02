@@ -3,95 +3,172 @@ import { useState } from "react";
 import {
   Dimensions,
   GestureResponderEvent,
+  KeyboardAvoidingView,
   LayoutChangeEvent,
+  Modal,
+  Platform,
+  ScrollView,
   StyleSheet,
   Text,
+  TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { CheckBox } from "@rneui/themed";
 import { Button } from "@rneui/base";
 import { AntDesign } from "@expo/vector-icons";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export const AddBalance: React.FC = () => {
-  const [checkedIndex, setCheckedIndex] = useState(0);
-  const [viewHeight, setViewHeight] = useState<number>(0);
-  const [screenHeight, setScreenHeight] = useState<number>(0);
-  const [addContainerPosition, setAddContainerPosition] = useState(0);
-  const checkViewHeight = (event: LayoutChangeEvent) => {
-    const { height } = event.nativeEvent.layout;
-    setViewHeight(height);
-  };
-
-  useEffect(() => {
-    setScreenHeight(Dimensions.get("window").height);
-    setAddContainerPosition(screenHeight / 2 - viewHeight);
-  }, []);
+  const [balanceAmount, setBalanceAmount] = useState(0);
+  const [checkedBalanceIndex, setCheckedBalanceIndex] = useState(0);
+  const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <View
-      style={[styles.addBalanceContainer]}
-      onLayout={(event) => {
-        checkViewHeight(event);
-      }}
-    >
-      <View style={styles.addBalanceRow}>
-        <Text style={styles.addBalanceLabel}>タイトル</Text>
-        <Text style={styles.addBalanceText}>ああを購入</Text>
-      </View>
-      <View style={styles.addBalanceRow}>
-        <Text style={styles.addBalanceLabel}>カテゴリ</Text>
-        <Text style={styles.addBalanceText}>趣味</Text>
-      </View>
-      <View style={styles.addBalanceRow}>
-        <Text>収入</Text>
-        <CheckBox
-          checked={checkedIndex === 0}
-          onPress={() => setCheckedIndex(0)}
-          checkedIcon="dot-circle-o"
-          uncheckedIcon="circle-o"
-          size={18}
-          style={{ padding: 0 }}
-        />
-        <Text>支出</Text>
-        <CheckBox
-          checked={checkedIndex === 1}
-          onPress={() => setCheckedIndex(1)}
-          checkedIcon="dot-circle-o"
-          uncheckedIcon="circle-o"
-          size={18}
-        />
+    <View style={[styles.addBalanceContainer]}>
+      <View style={{ position: "relative", bottom: 0 }}>
+        <Button
+          size="lg"
+          color="success"
+          onPress={() => setModalVisible(true)}
+          style={styles.modalBalanceAddButton}
+        >
+          <AntDesign name="plus" size={12} color="white" />
+          <Text style={styles.modalBalanceAddText}>追加する</Text>
+        </Button>
       </View>
 
-      <View style={styles.addBalanceRow}>
-        <Text style={styles.addBalanceLabel}>金額</Text>
-        <Text
-          style={(styles.addBalanceText, { fontWeight: "600", fontSize: 20 })}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => {
+          setModalVisible(!modalVisible);
+        }}
+      >
+        <KeyboardAvoidingView
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
+          style={styles.modalContainer}
         >
-          ￥1000
-        </Text>
-      </View>
-      <View style={styles.addButtonContainer}>
-        <Button
-          title={" 追加する"}
-          size="md"
-          icon={<AntDesign name="plus" size={16} color="white" />}
-        />
-      </View>
+          <SafeAreaView>
+            <View style={styles.modalContent}>
+              <ScrollView>
+                <AntDesign
+                  name="close"
+                  size={22}
+                  color="black"
+                  style={styles.modalCloseIcon}
+                  onPress={() => setModalVisible(false)}
+                />
+                <View style={styles.addBalanceRow}>
+                  <Text style={styles.addBalanceLabel}>タイトル</Text>
+                  <Text style={styles.addBalanceText}>ああを購入</Text>
+                </View>
+                <View style={styles.addBalanceRow}>
+                  <Text style={styles.addBalanceLabel}>カテゴリ</Text>
+                  <Text style={styles.addBalanceText}>趣味</Text>
+                </View>
+                <View style={styles.checkboxBalanceRow}>
+                  <Text>収入</Text>
+                  <CheckBox
+                    checked={checkedBalanceIndex === 0}
+                    onPress={() => setCheckedBalanceIndex(0)}
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    size={18}
+                  />
+                  <Text>支出</Text>
+                  <CheckBox
+                    checked={checkedBalanceIndex === 1}
+                    onPress={() => setCheckedBalanceIndex(1)}
+                    checkedIcon="dot-circle-o"
+                    uncheckedIcon="circle-o"
+                    size={18}
+                  />
+                </View>
+
+                <View style={styles.addBalanceRow}>
+                  <Text style={styles.addBalanceLabel}>金額</Text>
+                  <TextInput
+                    value={balanceAmount.toString()}
+                    onChangeText={(text) => {
+                      setBalanceAmount(Number(text));
+                    }}
+                    style={[styles.addBalanceText, styles.amountText]}
+                  />
+                </View>
+                <View style={styles.addButtonContainer}>
+                  <Button
+                    size="md"
+                    buttonStyle={[
+                      styles.modalBalanceAddButton,
+                      { alignSelf: "center" },
+                    ]}
+                  >
+                    <AntDesign name="plus" size={12} color="white" />
+                    <Text style={styles.modalBalanceAddText}>追加する</Text>
+                  </Button>
+                </View>
+              </ScrollView>
+            </View>
+          </SafeAreaView>
+        </KeyboardAvoidingView>
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  modalContent: {
+    backgroundColor: "#fafafa",
+    borderWidth: 0.5,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    paddingTop: 5,
+    // height: Dimensions.get("window").height - 150,
+  },
+  modalBalanceAddButton: {
+    padding: 12,
+  },
+  modalBalanceAddText: {
+    color: "white",
+    paddingLeft: 3,
+  },
+  modalCloseIcon: {
+    alignSelf: "flex-end",
+    paddingVertical: 10,
+  },
+  hideModalButton: {
+    backgroundColor: "red",
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+  },
+  hideModalButtonText: {
+    color: "white",
+    fontSize: 16,
+  },
   addBalanceContainer: {
     alignItems: "center",
-    // 画面下部に固定表示するため、position: "absolute"を指定
-    position: "absolute",
-    bottom: 0,
   },
   addBalanceRow: {
-    width: "90%",
-    height: 50,
-    borderWidth: 1,
+    backgroundColor: "white",
+    paddingVertical: 10,
+    borderWidth: 0.5,
+    borderColor: "#E1E1E1",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  checkboxBalanceRow: {
+    backgroundColor: "white",
+    borderWidth: 0.5,
     borderColor: "#E1E1E1",
     flexDirection: "row",
     alignItems: "center",
@@ -106,9 +183,11 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
   },
+  amountText: {
+    fontWeight: "600",
+    fontSize: 20,
+  },
   addButtonContainer: {
-    width: "90%",
-    height: 50,
-    marginTop: 5,
+    marginTop: 20,
   },
 });

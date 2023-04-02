@@ -14,7 +14,6 @@ import { EvilIcons } from "@expo/vector-icons";
 import { useState } from "react";
 import { formatDateWithWeekday } from "../utils/dateFormat";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import getInset from "react-native-safe-area-view";
 
 export const DiaryEntryForm = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -114,7 +113,7 @@ const styles = StyleSheet.create({
   },
   diaryContentContainer: {
     width: "90%",
-    flexGrow: 1,
+
   },
   diaryContentText: {
     padding: 12,
