@@ -6,7 +6,7 @@ export const AppBar: React.FC = () => {
     <View style={styles.appbar}>
       <View style={styles.appbarInner}>
         <Text style={styles.appbarTitle}>家計簿</Text>
-        <Text style={styles.appbarRight}>+</Text>
+        <Text style={styles.appbarRight}></Text>
       </View>
     </View>
   );

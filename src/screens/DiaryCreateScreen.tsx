@@ -19,7 +19,7 @@ import { AddBalance } from "../components/AddBalance";
 import { DiaryEntryForm } from "../components/DiaryEntryForm";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export const DiaryEditScreen: React.FC = () => {
+export const DiaryCreateScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
 

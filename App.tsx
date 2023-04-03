@@ -8,8 +8,10 @@ import { SortPicker } from "./src/components/SortPicker";
 import { DiaryListScreen } from "./src/screens/DiaryListScreen";
 import { DiaryDetailScreen } from "./src/screens/DiaryDetailScreen";
 import { DiaryEditScreen } from "./src/screens/DiaryEditScreen";
+import { DiaryCreateScreen } from "./src/screens/DiaryCreateScreen";
 
 export default function App() {
-  return <DiaryEditScreen />;
+  return <DiaryCreateScreen />;
+  // return <DiaryEditScreen />;
   // return <DiaryDetailScreen />;
 }
