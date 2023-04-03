@@ -1,10 +1,32 @@
 import React, { useState } from "react";
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export const DiaryBalanceList: React.FC = () => {
+  const navigation = useNavigation();
+  const showDetail = useRoute().name === "DiaryDetail";
+  const listOpacity = showDetail ? 1 : 0.2;
+
+  const onPress = () => {
+    if (showDetail) {
+      return;
+    }
+    navigation.navigate("DiaryDetail");
+  };
+
   return (
     <ScrollView>
-      <View style={styles.diaryBalanceListItem}>
+      <TouchableOpacity
+        onPress={() => onPress()}
+        style={styles.diaryBalanceListItem}
+        activeOpacity={listOpacity}
+      >
         <View>
           <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
           <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
@@ -12,8 +34,11 @@ export const DiaryBalanceList: React.FC = () => {
         <View>
           <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
         </View>
-      </View>
-      <View style={styles.diaryBalanceListItem}>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => onPress}
+        style={styles.diaryBalanceListItem}
+      >
         <View>
           <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
           <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
@@ -21,16 +46,7 @@ export const DiaryBalanceList: React.FC = () => {
         <View>
           <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
         </View>
-      </View>
-      <View style={styles.diaryBalanceListItem}>
-        <View>
-          <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
-          <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
-        </View>
-        <View>
-          <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
-        </View>
-      </View>
+      </TouchableOpacity>
     </ScrollView>
   );
 };

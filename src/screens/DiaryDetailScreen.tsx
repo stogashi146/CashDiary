@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { AppBar } from "../components/AppBar";
 import { StyleSheet, Text, View } from "react-native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
@@ -16,7 +15,6 @@ export const DiaryDetailScreen: React.FC = () => {
 
   return (
     <View style={styles.container}>
-      <AppBar />
       <View style={styles.tabContainer}>
         <SegmentedControl
           values={["日記", "家計簿"]}

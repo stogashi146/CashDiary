@@ -1,6 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import { AppBar } from "../components/AppBar";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -29,7 +28,6 @@ export const DiaryCreateScreen: React.FC = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <SafeAreaView>
-        <AppBar />
         {selectedIndex == 0 ? (
           <ScrollView>
             <View style={styles.tabContainer}>
