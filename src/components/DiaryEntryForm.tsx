@@ -11,17 +11,22 @@ import {
   Platform,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
-import { useState } from "react";
+import React, { useState } from "react";
 import { formatDateWithWeekday } from "../utils/dateFormat";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import getInset from "react-native-safe-area-view";
 
-export const DiaryEntryForm = () => {
+interface DiaryEntryFormProps {
+  handleSetDate: (date: Date) => void;
+}
+
+export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [diaryTitle, setDiaryTitle] = useState("");
   const [diaryContent, setDiaryContent] = useState("");
   const { height } = Dimensions.get("window");
+
+  const { handleSetDate } = props;
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -33,6 +38,7 @@ export const DiaryEntryForm = () => {
 
   const handleConfirm = (date: Date) => {
     setSelectedDate(date);
+    handleSetDate(date);
     hideDatePicker();
   };
 
@@ -69,6 +75,7 @@ export const DiaryEntryForm = () => {
               setDiaryTitle(text);
             }}
             value={diaryTitle}
+            placeholder="タイトル"
           />
         </View>
         <View style={styles.diaryContentContainer}>
@@ -80,6 +87,7 @@ export const DiaryEntryForm = () => {
             }}
             value={diaryContent}
             scrollEnabled={false}
+            placeholder="本文"
           />
         </View>
       </ScrollView>

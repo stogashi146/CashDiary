@@ -5,15 +5,15 @@ import { formatDateToYYYYMM } from "../utils/dateFormat";
 
 export const MonthSelect: React.FC = () => {
   // 現在の日付をYYYY年MM月の形式にする
-  const [currentMonth, setcurrentMonth] = React.useState(new Date());
+  const [currentMonth, setCurrentMonth] = React.useState(new Date());
 
   const onPressArrow = (type: "prev" | "next") => {
     if (type === "prev") {
-      setcurrentMonth(
+      setCurrentMonth(
         new Date(currentMonth.setMonth(currentMonth.getMonth() - 1))
       );
     } else {
-      setcurrentMonth(
+      setCurrentMonth(
         new Date(currentMonth.setMonth(currentMonth.getMonth() + 1))
       );
     }
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "400",
     lineHeight: 32,
-    color: "#D6423A",
+    color: "black",
     paddingHorizontal: 50,
     backgroundColor: "#F2F2F6",
   },

@@ -4,13 +4,34 @@ import { MonthSelect } from "../components/MonthSelect";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
 import { SortPicker } from "../components/SortPicker";
+import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
+import { AntDesign } from "@expo/vector-icons";
 
 interface DiaryListScreenProps {
   navigation: any;
 }
 
-export const DiaryListScreen: React.FC<DiaryListScreenProps> = (props) => {
-  const { navigation } = props;
+export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <AntDesign
+          name="plus"
+          size={24}
+          color="black"
+          style={{ paddingRight: 15, paddingTop: 5 }}
+          onPress={onPressAddIcon}
+        />
+      ),
+    });
+  }, []);
+
+  const onPressAddIcon = () => {
+    navigation.navigate("DiaryCreate");
+  };
+
   return (
     <View style={styles.container}>
       <MonthSelect />

@@ -1,17 +1,13 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import {
-  Dimensions,
-  GestureResponderEvent,
   KeyboardAvoidingView,
-  LayoutChangeEvent,
   Modal,
   Platform,
   ScrollView,
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { CheckBox } from "@rneui/themed";
@@ -19,10 +15,30 @@ import { Button } from "@rneui/base";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-export const AddBalance: React.FC = () => {
+interface AddBalanceProps {
+  handleCreateBalance?: (balance: BalanceData) => void;
+}
+
+export const AddBalance: React.FC<AddBalanceProps> = (props) => {
+  const [title, setTitle] = useState("");
+  const [category, setCategory] = useState("");
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [checkedBalanceIndex, setCheckedBalanceIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+
+  const { handleCreateBalance } = props;
+
+  const onPressAddBalance = () => {
+    if (handleCreateBalance == null) return;
+
+    handleCreateBalance({
+      title: title,
+      category: category,
+      balanceDirection: checkedBalanceIndex === 0 ? "income" : "expense",
+      amount: balanceAmount,
+    });
+    setModalVisible(false);
+  };
 
   return (
     <View style={[styles.addBalanceContainer]}>
@@ -61,12 +77,20 @@ export const AddBalance: React.FC = () => {
                   onPress={() => setModalVisible(false)}
                 />
                 <View style={styles.addBalanceRow}>
-                  <Text style={styles.addBalanceLabel}>タイトル</Text>
-                  <Text style={styles.addBalanceText}>ああを購入</Text>
+                  <Text style={styles.addBalanceLabel}>メモ</Text>
+                  <TextInput
+                    style={styles.addBalanceText}
+                    value={title}
+                    onChangeText={(text) => setTitle(text)}
+                  />
                 </View>
                 <View style={styles.addBalanceRow}>
                   <Text style={styles.addBalanceLabel}>カテゴリ</Text>
-                  <Text style={styles.addBalanceText}>趣味</Text>
+                  <TextInput
+                    style={styles.addBalanceText}
+                    value={category}
+                    onChangeText={(text) => setCategory(text)}
+                  />
                 </View>
                 <View style={styles.checkboxBalanceRow}>
                   <Text>収入</Text>
@@ -76,6 +100,7 @@ export const AddBalance: React.FC = () => {
                     checkedIcon="dot-circle-o"
                     uncheckedIcon="circle-o"
                     size={18}
+                    style={styles.checkBox}
                   />
                   <Text>支出</Text>
                   <CheckBox
@@ -84,6 +109,7 @@ export const AddBalance: React.FC = () => {
                     checkedIcon="dot-circle-o"
                     uncheckedIcon="circle-o"
                     size={18}
+                    style={styles.checkBox}
                   />
                 </View>
 
@@ -105,6 +131,7 @@ export const AddBalance: React.FC = () => {
                       styles.modalBalanceAddButton,
                       { alignSelf: "center" },
                     ]}
+                    onPress={onPressAddBalance}
                   >
                     <AntDesign name="plus" size={12} color="white" />
                     <Text style={styles.modalBalanceAddText}>追加する</Text>
@@ -181,8 +208,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
   addBalanceText: {
+    width: "100%",
     textAlign: "center",
     fontSize: 16,
+  },
+  checkBox: {
+    padding: 8,
   },
   amountText: {
     fontWeight: "600",

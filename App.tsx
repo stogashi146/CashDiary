@@ -22,6 +22,7 @@ export default function App() {
           headerTintColor: "#525252",
           headerTitle: "CashDiary",
           headerBackTitle: "Back",
+          headerBackTitleStyle: { color: "#525252", fontSize: 16 },
           // iOSとAndroidで遷移時のアニメーションを統一
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
