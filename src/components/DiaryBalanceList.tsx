@@ -10,14 +10,13 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 
 export const DiaryBalanceList: React.FC = () => {
   const navigation = useNavigation();
-  const showDetail = useRoute().name === "DiaryDetail";
-  const listOpacity = showDetail ? 1 : 0.2;
+  const showList = useRoute().name === "DiaryList";
+  const listOpacity = showList ? 0.2 : 1;
 
   const onPress = () => {
-    if (showDetail) {
-      return;
+    if (showList) {
+      navigation.navigate("DiaryDetail");
     }
-    navigation.navigate("DiaryDetail");
   };
 
   return (
@@ -29,7 +28,9 @@ export const DiaryBalanceList: React.FC = () => {
       >
         <View>
           <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
-          <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
+          {showList && (
+            <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
+          )}
         </View>
         <View>
           <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
@@ -41,7 +42,9 @@ export const DiaryBalanceList: React.FC = () => {
       >
         <View>
           <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
-          <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
+          {showList && (
+            <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
+          )}
         </View>
         <View>
           <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>

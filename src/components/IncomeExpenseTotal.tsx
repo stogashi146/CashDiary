@@ -45,14 +45,16 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     borderWidth: 0.5,
+    borderRadius: 10,
+    borderColor: "rgba(0, 0, 0, 0.5)",
     width: "43%",
-    paddingVertical: 10,
+    paddingVertical: 4,
   },
   incomeExpenseInnerLabel: {
-    fontSize: 15,
+    fontSize: 14,
   },
   incomeInnerAmount: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "500",
     color: "#0094FF",
   },
@@ -60,7 +62,7 @@ const styles = StyleSheet.create({
     color: "#0094FF",
   },
   expenseInnerAmount: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "500",
     color: "#FF0000",
   },

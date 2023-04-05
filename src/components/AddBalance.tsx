@@ -95,6 +95,7 @@ export const AddBalance: React.FC = () => {
                       setBalanceAmount(Number(text));
                     }}
                     style={[styles.addBalanceText, styles.amountText]}
+                    keyboardType="numeric"
                   />
                 </View>
                 <View style={styles.addButtonContainer}>

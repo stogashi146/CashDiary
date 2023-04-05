@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
@@ -8,10 +8,16 @@ import { SortPicker } from "../components/SortPicker";
 import { DiaryBalanceList } from "../components/DiaryBalanceList";
 import { DiaryEntryDetail } from "../components/DiaryEntryDetail";
 import { AddBalance } from "../components/AddBalance";
+import { useNavigation } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
 
 export const DiaryDetailScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const navigation = useNavigation();
+  useEffect(() => {
+    navigation.setOptions({ headerTitle: "2022/12/12" });
+  }, []);
 
   return (
     <View style={styles.container}>

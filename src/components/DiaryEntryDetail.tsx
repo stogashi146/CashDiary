@@ -26,19 +26,18 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderColor: "rgba(0,0,0,1)",
     borderTopWidth: 0.5,
-
     paddingVertical: 3,
   },
   diaryTitleText: {
-    fontSize: 22,
-    padding: 8,
+    fontSize: 18,
+    padding: 4,
   },
   diaryContentContainer: {
     width: "90%",
     height: "80%",
   },
   diaryContentText: {
-    fontSize: 18,
-    padding: 10,
+    padding: 12,
+    fontSize: 16,
   },
 });

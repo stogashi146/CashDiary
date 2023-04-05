@@ -1,6 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+} from "@react-navigation/stack";
 import { DiaryListScreen } from "./src/screens/DiaryListScreen";
 import { DiaryCreateScreen } from "./src/screens/DiaryCreateScreen";
 import { DiaryDetailScreen } from "./src/screens/DiaryDetailScreen";
@@ -17,8 +20,10 @@ export default function App() {
           headerStyle: { backgroundColor: "#F0F4F8" },
           headerTitleStyle: { color: "#525252" },
           headerTintColor: "#525252",
-          headerTitle: "Home",
+          headerTitle: "CashDiary",
           headerBackTitle: "Back",
+          // iOSとAndroidで遷移時のアニメーションを統一
+          cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       >
         <Stack.Screen name="DiaryList" component={DiaryListScreen} />

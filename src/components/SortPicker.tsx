@@ -21,7 +21,7 @@ export const SortPicker: React.FC = () => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
-        style={{ minHeight: 30 }}
+        style={{ minHeight: 20 }}
         containerStyle={styles.sortDropDown}
         placeholder="新しい順"
       />
@@ -31,7 +31,7 @@ export const SortPicker: React.FC = () => {
 
 const styles = StyleSheet.create({
   sortContainer: {
-    height: 40,
+    height: 35,
   },
   sortDropDown: {
     flex: 1,
