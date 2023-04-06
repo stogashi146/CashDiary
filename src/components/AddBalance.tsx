@@ -14,6 +14,7 @@ import { CheckBox } from "@rneui/themed";
 import { Button } from "@rneui/base";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { SquareButton } from "./SquareButton";
 
 interface AddBalanceProps {
   handleCreateBalance?: (balance: BalanceData) => void;
@@ -42,18 +43,11 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
 
   return (
     <View style={[styles.addBalanceContainer]}>
-      <View style={{ position: "relative", bottom: 0 }}>
-        <Button
-          size="lg"
-          color="success"
-          onPress={() => setModalVisible(true)}
-          style={styles.modalBalanceAddButton}
-        >
-          <AntDesign name="plus" size={12} color="white" />
-          <Text style={styles.modalBalanceAddText}>追加する</Text>
-        </Button>
+      <View style={{ position: "relative", bottom: 0, marginTop: 20 }}>
+        <SquareButton onPress={() => setModalVisible(true)}>
+          追加する
+        </SquareButton>
       </View>
-
       <Modal
         animationType="slide"
         transparent={true}
@@ -125,17 +119,9 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
                   />
                 </View>
                 <View style={styles.addButtonContainer}>
-                  <Button
-                    size="md"
-                    buttonStyle={[
-                      styles.modalBalanceAddButton,
-                      { alignSelf: "center" },
-                    ]}
-                    onPress={onPressAddBalance}
-                  >
-                    <AntDesign name="plus" size={12} color="white" />
-                    <Text style={styles.modalBalanceAddText}>追加する</Text>
-                  </Button>
+                  <SquareButton onPress={onPressAddBalance}>
+                    追加する
+                  </SquareButton>
                 </View>
               </ScrollView>
             </View>
@@ -147,6 +133,9 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
+  addBalanceContainer: {
+    // alignItems: "center",
+  },
   modalContainer: {
     flex: 1,
     justifyContent: "flex-end",
@@ -182,9 +171,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 16,
   },
-  addBalanceContainer: {
-    alignItems: "center",
-  },
+
   addBalanceRow: {
     backgroundColor: "white",
     paddingVertical: 10,

@@ -8,54 +8,69 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-export const DiaryBalanceList: React.FC = () => {
+interface DiaryBalanceListProps {
+  balances: BalanceData[];
+  // screenType: "list" | "detail";
+}
+
+export const DiaryBalanceList: React.FC<DiaryBalanceListProps> = (props) => {
   const navigation = useNavigation();
-  const showList = useRoute().name === "DiaryList";
-  const listOpacity = showList ? 0.2 : 1;
+  const isListScreen = useRoute().name === "DiaryList";
+  const listOpacity = isListScreen ? 0.2 : 1;
+
+  const { balances } = props;
 
   const onPress = () => {
-    if (showList) {
+    if (isListScreen) {
       navigation.navigate("DiaryDetail");
     }
   };
 
   return (
-    <ScrollView>
-      <TouchableOpacity
-        onPress={() => onPress()}
-        style={styles.diaryBalanceListItem}
-        activeOpacity={listOpacity}
-      >
-        <View>
-          <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
-          {showList && (
+    <ScrollView style={styles.diaryBalanceListContainer}>
+      {isListScreen ? (
+        <TouchableOpacity
+          onPress={() => onPress()}
+          style={styles.diaryBalanceListItem}
+          activeOpacity={listOpacity}
+        >
+          <View>
+            <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
             <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
-          )}
-        </View>
-        <View>
-          <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        onPress={() => onPress}
-        style={styles.diaryBalanceListItem}
-      >
-        <View>
-          <Text style={styles.diaryBalanceListItemTitle}>映画</Text>
-          {showList && (
-            <Text style={styles.diaryBalanceListItemDate}>2020年12月24日</Text>
-          )}
-        </View>
-        <View>
-          <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
-        </View>
-      </TouchableOpacity>
+          </View>
+          <View>
+            <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
+          </View>
+        </TouchableOpacity>
+      ) : (
+        balances &&
+        balances.map((balance, index) => {
+          return (
+            <View style={styles.diaryBalanceListItem} key={index}>
+              <View>
+                <Text style={styles.diaryBalanceListItemTitle}>
+                  {balance.title}
+                </Text>
+              </View>
+              <View>
+                <Text
+                  style={styles.diaryBalanceListItemAmount}
+                >{`￥${balance.amount}`}</Text>
+              </View>
+            </View>
+          );
+        })
+      )}
     </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
+  diaryBalanceListContainer: {
+    height: 325,
+  },
   diaryBalanceListItem: {
+    height: 65,
     backgroundColor: "#FFFFFF",
     // 横並びにする
     flexDirection: "row",

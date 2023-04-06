@@ -1,0 +1,36 @@
+import { AntDesign } from "@expo/vector-icons";
+import { Button } from "@rneui/base";
+import { StyleSheet, Text } from "react-native";
+
+interface ButtonProps {
+  onPress?: () => void;
+  type?: "add";
+  children: React.ReactNode;
+  style?: React.CSSProperties;
+}
+
+export const SquareButton: React.FC<ButtonProps> = (props: ButtonProps) => {
+  const { children, onPress, type,  } = props;
+  return (
+    <Button
+      size="md"
+      buttonStyle={[styles.modalBalanceAddButton, ...style]}
+      onPress={onPress}
+      color="success"
+      radius={8}
+    >
+      <AntDesign name="plus" size={12} color="white" />
+      <Text style={styles.modalBalanceAddText}>{children}</Text>
+    </Button>
+  );
+};
+
+const styles = StyleSheet.create({
+  modalBalanceAddText: {
+    color: "white",
+    paddingLeft: 3,
+  },
+  modalBalanceAddButton: {
+    padding: 12,
+  },
+});

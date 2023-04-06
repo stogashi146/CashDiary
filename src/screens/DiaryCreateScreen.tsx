@@ -20,13 +20,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import { formatDateWithWeekday } from "../utils/dateFormat";
+import { GrayBar } from "../components/GrayBar";
+import { Button } from "@rneui/base";
+import { SquareButton } from "../components/SquareButton";
 
 export const DiaryCreateScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryEntry, setDiaryEntry] = useState<DiaryData>();
-  const [balances, setBalances] = useState<BalanceData[]>();
+  const [balances, setBalances] = useState<BalanceData[]>([]);
   const [diaryBalance, setDiaryBalance] = useState<DiaryBalanceData>();
 
   const navigation = useNavigation();
@@ -43,7 +46,7 @@ export const DiaryCreateScreen: React.FC = () => {
         />
       ),
     });
-  }, [selectedDate]);
+  }, [selectedDate, balances]);
 
   const onPressSaveIcon = () => {
     alert("保存しました");
@@ -54,7 +57,7 @@ export const DiaryCreateScreen: React.FC = () => {
   };
 
   const handleCreateBalance = (balance: BalanceData) => {
-    setBalances([balance]);
+    setBalances([...balances, balance]);
   };
 
   const renderTabPanel = () => {
@@ -88,8 +91,18 @@ export const DiaryCreateScreen: React.FC = () => {
             {renderTabPanel()}
             <IncomeExpenseTotal />
             <BalanceTotal />
-            <SortPicker />
-            <DiaryBalanceList />
+            <GrayBar style={{ justifyContent: "center" }}>
+              <AntDesign
+                name="plus"
+                size={26}
+                color="black"
+                style={{
+                  alignSelf: "flex-end",
+                  paddingRight: 15,
+                }}
+              />
+            </GrayBar>
+            <DiaryBalanceList balances={balances} />
             <AddBalance handleCreateBalance={handleCreateBalance} />
           </View>
         )}
