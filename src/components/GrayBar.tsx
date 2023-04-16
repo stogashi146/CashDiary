@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { StyleSheet, Text, View, ViewStyle } from "react-native";
 
 interface grayBarProps {
-  children: ReactNode;
+  children?: ReactNode;
   style?: ViewStyle;
 }
 

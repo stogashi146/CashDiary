@@ -46,7 +46,13 @@ export const DiaryBalanceList: React.FC<DiaryBalanceListProps> = (props) => {
         balances &&
         balances.map((balance, index) => {
           return (
-            <View style={styles.diaryBalanceListItem} key={index}>
+            <View
+              style={[
+                styles.diaryBalanceListItem,
+                styles.diaryBalanceCreateListItem,
+              ]}
+              key={index}
+            >
               <View>
                 <Text style={styles.diaryBalanceListItemTitle}>
                   {balance.title}
@@ -70,7 +76,7 @@ const styles = StyleSheet.create({
     height: 325,
   },
   diaryBalanceListItem: {
-    height: 65,
+    height: 70,
     backgroundColor: "#FFFFFF",
     // 横並びにする
     flexDirection: "row",
@@ -81,6 +87,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 19,
     borderBottomWidth: 1,
     borderColor: "rgba(0,0,0,0.15)",
+  },
+  diaryBalanceCreateListItem: {
+    height: 60,
   },
   diaryBalanceListItemTitle: {
     fontSize: 18,

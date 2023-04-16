@@ -1,20 +1,21 @@
 import { AntDesign } from "@expo/vector-icons";
 import { Button } from "@rneui/base";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, StyleSheetProperties, Text } from "react-native";
 
 interface ButtonProps {
   onPress?: () => void;
   type?: "add";
   children: React.ReactNode;
-  style?: React.CSSProperties;
+  color?: string;
+  style?: any;
 }
 
 export const SquareButton: React.FC<ButtonProps> = (props: ButtonProps) => {
-  const { children, onPress, type,  } = props;
+  const { children, onPress, type, style } = props;
   return (
     <Button
       size="md"
-      buttonStyle={[styles.modalBalanceAddButton, ...style]}
+      buttonStyle={[styles.modalBalanceAddButton, style]}
       onPress={onPress}
       color="success"
       radius={8}

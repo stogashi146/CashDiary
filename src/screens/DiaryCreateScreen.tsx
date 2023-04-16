@@ -31,6 +31,7 @@ export const DiaryCreateScreen: React.FC = () => {
   const [diaryEntry, setDiaryEntry] = useState<DiaryData>();
   const [balances, setBalances] = useState<BalanceData[]>([]);
   const [diaryBalance, setDiaryBalance] = useState<DiaryBalanceData>();
+  const [openAddBalanceModal, setOpenAddBalanceModal] = useState(false);
 
   const navigation = useNavigation();
   useEffect(() => {
@@ -91,17 +92,7 @@ export const DiaryCreateScreen: React.FC = () => {
             {renderTabPanel()}
             <IncomeExpenseTotal />
             <BalanceTotal />
-            <GrayBar style={{ justifyContent: "center" }}>
-              <AntDesign
-                name="plus"
-                size={26}
-                color="black"
-                style={{
-                  alignSelf: "flex-end",
-                  paddingRight: 15,
-                }}
-              />
-            </GrayBar>
+            <GrayBar style={{ justifyContent: "center" }}></GrayBar>
             <DiaryBalanceList balances={balances} />
             <AddBalance handleCreateBalance={handleCreateBalance} />
           </View>

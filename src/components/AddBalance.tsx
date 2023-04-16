@@ -43,7 +43,15 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
 
   return (
     <View style={[styles.addBalanceContainer]}>
-      <View style={{ position: "relative", bottom: 0, marginTop: 20 }}>
+      <View
+        style={{
+          position: "relative",
+          bottom: 0,
+          marginTop: 20,
+          width: "85%",
+          alignSelf: "center",
+        }}
+      >
         <SquareButton onPress={() => setModalVisible(true)}>
           追加する
         </SquareButton>
@@ -65,7 +73,7 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
               <ScrollView>
                 <AntDesign
                   name="close"
-                  size={22}
+                  size={26}
                   color="black"
                   style={styles.modalCloseIcon}
                   onPress={() => setModalVisible(false)}
@@ -119,9 +127,7 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
                   />
                 </View>
                 <View style={styles.addButtonContainer}>
-                  <SquareButton onPress={onPressAddBalance}>
-                    追加する
-                  </SquareButton>
+                  <SquareButton onPress={onPressAddBalance}>決定</SquareButton>
                 </View>
               </ScrollView>
             </View>
@@ -159,7 +165,8 @@ const styles = StyleSheet.create({
   },
   modalCloseIcon: {
     alignSelf: "flex-end",
-    paddingVertical: 10,
+    marginVertical: 15,
+    color: "rgba(0,0,0,0.5)",
   },
   hideModalButton: {
     backgroundColor: "red",

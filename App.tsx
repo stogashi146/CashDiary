@@ -8,10 +8,15 @@ import { DiaryListScreen } from "./src/screens/DiaryListScreen";
 import { DiaryCreateScreen } from "./src/screens/DiaryCreateScreen";
 import { DiaryDetailScreen } from "./src/screens/DiaryDetailScreen";
 import { DiaryEditScreen } from "./src/screens/DiaryEditScreen";
+import * as SQLite from "expo-sqlite";
+import { initDatabase, fetchDiary } from "./src/utils/databaseUtils";
 
 const Stack = createStackNavigator();
 
 export default function App() {
+  initDatabase();
+  fetchDiary();
+
   return (
     <NavigationContainer>
       <Stack.Navigator
