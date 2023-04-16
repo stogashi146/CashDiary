@@ -1,7 +1,7 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { formatDateToYYYYMM } from "../utils/dateFormat";
+import { formatDateToYYYYMM } from "../utils/DateFormat";
 
 export const MonthSelect: React.FC = () => {
   // 現在の日付をYYYY年MM月の形式にする

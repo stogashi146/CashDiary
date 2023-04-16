@@ -1,55 +1,37 @@
 import * as SQLite from "expo-sqlite";
+import { DB_NAME } from "../../config/database";
 
-const DB_NAME = "cashdiary.db";
 const db = SQLite.openDatabase(DB_NAME);
 
-export const initDatabase = () => {
+// ユーザーを全て取得する関数
+export const fetchDiary = () => {
   db.transaction((tx) => {
     tx.executeSql(
-      `CREATE TABLE IF NOT EXISTS diary (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        date TEXT,
-        title TEXT,
-        content TEXT
-      );`,
+      "PRAGMA table_info(diary)",
       [],
-      () => {
-        console.log("diary table created");
+      (_, { rows }) => {
+        console.log(rows);
+        console.log("select result:" + JSON.stringify(rows._array));
       },
-      (error) => {
-        console.log(error);
+      () => {
+        console.log("select error");
         return false;
       }
     );
+  });
+};
+
+export const insertDiary = (diary: DiaryData) => {
+  db.transaction((tx) => {
     tx.executeSql(
-      `CREATE TABLE IF NOT EXISTS cash_balance (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        diary_id INTEGER,
-        title TEXT,
-        cash_balance_category_id INTEGER,
-        balance_type TEXT,
-        amount INTEGER,
-      );`,
-      [],
+      "INSERT INTO diary (date, title, content) VALUES (?, ?, ?)",
+      [diary.date, diary.title, diary.content],
       () => {
-        console.log("cash_balance table created");
+        console.log("diary insert success");
+        return true;
       },
-      (error) => {
-        console.log(error);
-        return false;
-      }
-    );
-    tx.executeSql(
-      `CREATE TABLE IF NOT EXISTS cash_balance_category (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-      );`,
-      [],
-      () => {
-        console.log("cash_balance_category table created");
-      },
-      (error) => {
-        console.log(error);
+      (tx, error) => {
+        console.log("diary insert error", error);
         return false;
       }
     );
@@ -57,10 +39,10 @@ export const initDatabase = () => {
 };
 
 // ユーザーを全て取得する関数
-export const fetchDiary = () => {
+export const fetchAllDiaryRecord = () => {
   db.transaction((tx) => {
     tx.executeSql(
-      "PRAGMA table_info(diary)",
+      "SELECT * FROM diary",
       [],
       (_, { rows }) => {
         console.log(rows);

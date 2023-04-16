@@ -1,4 +1,3 @@
-import { StyleSheet, Text, View } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import {
   CardStyleInterpolators,
@@ -8,14 +7,32 @@ import { DiaryListScreen } from "./src/screens/DiaryListScreen";
 import { DiaryCreateScreen } from "./src/screens/DiaryCreateScreen";
 import { DiaryDetailScreen } from "./src/screens/DiaryDetailScreen";
 import { DiaryEditScreen } from "./src/screens/DiaryEditScreen";
-import * as SQLite from "expo-sqlite";
-import { initDatabase, fetchDiary } from "./src/utils/databaseUtils";
+import { useInitDatabase } from "./src/hooks/useInitDatabase";
+import { useFetchDiary } from "./src/hooks/useFetchDiary";
+import { useEffect } from "react";
 
 const Stack = createStackNavigator();
 
 export default function App() {
-  initDatabase();
-  fetchDiary();
+  const { createdSuccess, error } = useInitDatabase();
+  const { fetchDiaries, diaryFetchSuccess, fetchDiaryError, fetchAllDiary } =
+    useFetchDiary();
+
+  if (error) {
+    console.log("Error: " + error);
+  }
+
+  if (createdSuccess) {
+    console.log("Create Success Table");
+  }
+
+  useEffect(() => {
+    fetchAllDiary;
+    console.log(diaryFetchSuccess);
+    console.log(fetchDiaryError);
+
+    console.log(fetchDiaries);
+  }, []);
 
   return (
     <NavigationContainer>

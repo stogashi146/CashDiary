@@ -5,38 +5,40 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
   View,
 } from "react-native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
-import { SortPicker } from "../components/SortPicker";
 import { DiaryBalanceList } from "../components/DiaryBalanceList";
-import { DiaryEntryDetail } from "../components/DiaryEntryDetail";
 import { AddBalance } from "../components/AddBalance";
 import { DiaryEntryForm } from "../components/DiaryEntryForm";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
-import { formatDateWithWeekday } from "../utils/dateFormat";
+import {
+  formatDateStringWithWeekday,
+  formatDateToYYYYMMDD,
+} from "../utils/DateFormat";
 import { GrayBar } from "../components/GrayBar";
-import { Button } from "@rneui/base";
-import { SquareButton } from "../components/SquareButton";
+import { insertDiary } from "../utils/DatabaseUtils";
+import { useInsertDiary } from "../hooks/useInsertDiary";
 
 export const DiaryCreateScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const [selectedDate, setSelectedDate] = useState(new Date());
-  const [diaryEntry, setDiaryEntry] = useState<DiaryData>();
-  const [balances, setBalances] = useState<BalanceData[]>([]);
-  const [diaryBalance, setDiaryBalance] = useState<DiaryBalanceData>();
-  const [openAddBalanceModal, setOpenAddBalanceModal] = useState(false);
+  const [diaryEntry, setDiaryEntry] = useState<DiaryData>({
+    date: formatDateToYYYYMMDD(new Date()),
+    title: "",
+    content: "",
+  });
+  const [balances, setBalances] = useState<CashBalanceData[]>([]);
+  const { insertDiary, diaryInsertedSuccess, error } = useInsertDiary();
 
   const navigation = useNavigation();
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: formatDateWithWeekday(selectedDate),
+      headerTitle: formatDateStringWithWeekday(diaryEntry.date),
       headerRight: () => (
         <AntDesign
           name="save"
@@ -47,17 +49,33 @@ export const DiaryCreateScreen: React.FC = () => {
         />
       ),
     });
-  }, [selectedDate, balances]);
+  }, [diaryEntry.date, balances]);
 
   const onPressSaveIcon = () => {
-    alert("保存しました");
+    insertDiary(diaryEntry);
+    if (error) {
+      console.log("Error: " + error);
+      return alert("日記を保存に失敗しました。");
+    }
+
+    if (diaryInsertedSuccess) {
+      return alert("日記を保存しました。");
+    }
   };
 
   const handleSetDate = (date: Date) => {
-    setSelectedDate(date);
+    setDiaryEntry({ ...diaryEntry, date: formatDateToYYYYMMDD(date) });
   };
 
-  const handleCreateBalance = (balance: BalanceData) => {
+  const handleSetTitle = (title: string) => {
+    setDiaryEntry({ ...diaryEntry, title });
+  };
+
+  const handleSetContent = (content: string) => {
+    setDiaryEntry({ ...diaryEntry, content });
+  };
+
+  const handleCreateBalance = (balance: CashBalanceData) => {
     setBalances([...balances, balance]);
   };
 
@@ -85,7 +103,11 @@ export const DiaryCreateScreen: React.FC = () => {
         {selectedIndex == 0 ? (
           <ScrollView>
             {renderTabPanel()}
-            <DiaryEntryForm handleSetDate={handleSetDate} />
+            <DiaryEntryForm
+              handleSetDate={handleSetDate}
+              handleSetTitle={handleSetTitle}
+              handleSetContent={handleSetContent}
+            />
           </ScrollView>
         ) : (
           <View>

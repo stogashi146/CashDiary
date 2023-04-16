@@ -12,21 +12,23 @@ import {
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
-import { formatDateWithWeekday } from "../utils/dateFormat";
+import { formatDateWithWeekday } from "../utils/DateFormat";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface DiaryEntryFormProps {
   handleSetDate: (date: Date) => void;
+  handleSetTitle: (title: string) => void;
+  handleSetContent: (content: string) => void;
 }
 
 export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [diaryTitle, setDiaryTitle] = useState("");
   const [diaryContent, setDiaryContent] = useState("");
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const { height } = Dimensions.get("window");
 
-  const { handleSetDate } = props;
+  const { handleSetDate, handleSetTitle, handleSetContent } = props;
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -38,8 +40,18 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
 
   const handleConfirm = (date: Date) => {
     setSelectedDate(date);
-    handleSetDate(date);
     hideDatePicker();
+    handleSetDate(date);
+  };
+
+  const handleTitleChange = (title: string) => {
+    setDiaryTitle(title);
+    handleSetTitle(title);
+  };
+
+  const handleContentChange = (content: string) => {
+    setDiaryContent(content);
+    handleSetContent(content);
   };
 
   return (
@@ -72,7 +84,7 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
           <TextInput
             style={styles.diaryTitleText}
             onChangeText={(text) => {
-              setDiaryTitle(text);
+              handleTitleChange(text);
             }}
             value={diaryTitle}
             placeholder="タイトル"
@@ -83,7 +95,7 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
             style={[styles.diaryContentText, { height: height / 2 }]}
             multiline
             onChangeText={(text) => {
-              setDiaryContent(text);
+              handleContentChange(text);
             }}
             value={diaryContent}
             scrollEnabled={false}
