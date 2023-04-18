@@ -22,8 +22,6 @@ export const useFetchDiary = (): useFetchDiaryType => {
         "SELECT * FROM diary",
         [],
         (_, { rows }) => {
-          console.log(rows);
-          console.log("select result:" + JSON.stringify(rows._array));
           setDiaryFetchSuccess(true);
           setFetchDiaries(rows._array);
         },
@@ -37,5 +35,5 @@ export const useFetchDiary = (): useFetchDiaryType => {
     });
   };
 
-  return { fetchDiaries, diaryFetchSuccess, fetchDiaryError, fetchAllDiary };
+  return { fetchAllDiary, fetchDiaries, diaryFetchSuccess, fetchDiaryError };
 };

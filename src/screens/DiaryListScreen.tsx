@@ -5,8 +5,9 @@ import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
 import { SortPicker } from "../components/SortPicker";
 import { useNavigation } from "@react-navigation/native";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
+import { useFetchDiary } from "../hooks/useFetchDiary";
 
 interface DiaryListScreenProps {
   navigation: any;
@@ -14,6 +15,9 @@ interface DiaryListScreenProps {
 
 export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
   const navigation = useNavigation();
+  const [diaries, setDiaries] = useState<DiaryData[]>([]);
+  const { fetchAllDiary, fetchDiaries } = useFetchDiary();
+
   useEffect(() => {
     navigation.setOptions({
       headerRight: () => (
@@ -26,7 +30,14 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
         />
       ),
     });
+    fetchAllDiary();
   }, []);
+
+  useEffect(() => {
+    const diaries = fetchDiaries;
+
+    setDiaries(diaries);
+  }, [fetchDiaries]);
 
   const onPressAddIcon = () => {
     navigation.navigate("DiaryCreate");
@@ -38,7 +49,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
       <IncomeExpenseTotal />
       <BalanceTotal />
       <SortPicker />
-      <DiaryBalanceList />
+      <DiaryBalanceList diaries={diaries} />
     </View>
   );
 };

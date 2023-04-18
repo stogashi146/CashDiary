@@ -15,24 +15,10 @@ const Stack = createStackNavigator();
 
 export default function App() {
   const { createdSuccess, error } = useInitDatabase();
-  const { fetchDiaries, diaryFetchSuccess, fetchDiaryError, fetchAllDiary } =
-    useFetchDiary();
 
   if (error) {
     console.log("Error: " + error);
   }
-
-  if (createdSuccess) {
-    console.log("Create Success Table");
-  }
-
-  useEffect(() => {
-    fetchAllDiary;
-    console.log(diaryFetchSuccess);
-    console.log(fetchDiaryError);
-
-    console.log(fetchDiaries);
-  }, []);
 
   return (
     <NavigationContainer>
