@@ -55,3 +55,30 @@ export const fetchAllDiaryRecord = () => {
     );
   });
 };
+
+// diaryテーブルの全てのデータを削除する
+export const deleteAllDiary = () => {
+  db.transaction((tx) => {
+    tx.executeSql(
+      "delete from diary",
+      [],
+      () => {
+        console.log("delete success");
+        return true;
+      },
+      (tx, error) => {
+        console.log("delete error", error);
+        return false;
+      }
+    );
+  });
+};
+
+// 全テーブルを削除する
+export const deleteAllTable = () => {
+  db.transaction((tx) => {
+    tx.executeSql("drop table diary");
+    tx.executeSql("drop table cash_balance");
+    tx.executeSql("drop table cash_balance_category");
+  });
+};

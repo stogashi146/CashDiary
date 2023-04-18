@@ -5,7 +5,7 @@ import SegmentedControl from "@react-native-segmented-control/segmented-control"
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
 import { SortPicker } from "../components/SortPicker";
-import { DiaryBalanceList } from "../components/DiaryBalanceList";
+import { DiaryBalanceList } from "../components/DiaryList";
 import { DiaryEntryDetail } from "../components/DiaryEntryDetail";
 import { AddBalance } from "../components/AddBalance";
 import { useNavigation } from "@react-navigation/native";

@@ -10,7 +10,6 @@ import {
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
-import { DiaryBalanceList } from "../components/DiaryBalanceList";
 import { AddBalance } from "../components/AddBalance";
 import { DiaryEntryForm } from "../components/DiaryEntryForm";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -23,10 +22,17 @@ import {
 import { GrayBar } from "../components/GrayBar";
 import { insertDiary } from "../utils/DatabaseUtils";
 import { useInsertDiary } from "../hooks/useInsertDiary";
+import { BalanceList } from "../components/BalanceList";
 
 export const DiaryCreateScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
+  // 定数を定義
+  const TabIndex = {
+    DIARY: 0,
+    BALANCE: 1,
+  };
+
   const [diaryEntry, setDiaryEntry] = useState<DiaryData>({
     date: formatDateToYYYYMMDD(new Date()),
     title: "",
@@ -100,7 +106,7 @@ export const DiaryCreateScreen: React.FC = () => {
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <SafeAreaView>
-        {selectedIndex == 0 ? (
+        {selectedIndex == TabIndex.DIARY ? (
           <ScrollView>
             {renderTabPanel()}
             <DiaryEntryForm
@@ -115,7 +121,7 @@ export const DiaryCreateScreen: React.FC = () => {
             <IncomeExpenseTotal />
             <BalanceTotal />
             <GrayBar style={{ justifyContent: "center" }}></GrayBar>
-            <DiaryBalanceList balances={balances} />
+            <BalanceList balances={balances} />
             <AddBalance handleCreateBalance={handleCreateBalance} />
           </View>
         )}

@@ -20,25 +20,27 @@ export const useInitDatabase = (): UseInitDatabaseType => {
           tx.executeSql(
             `CREATE TABLE IF NOT EXISTS diary (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              date TEXT,
-              title TEXT,
-              content TEXT
+              date TEXT NOT NULL,
+              title TEXT NOT NULL DEFAULT '',
+              content TEXT NOT NULL DEFAULT ''
             );`
           );
           tx.executeSql(
             `CREATE TABLE IF NOT EXISTS cash_balance (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              diary_id INTEGER,
-              title TEXT,
-              cash_balance_category_id INTEGER,
-              balance_type TEXT,
-              amount INTEGER
+              diary_id INTEGER NOT NULL,
+              title TEXT DEFAULT '',
+              cash_balance_category_id INTEGER NOT NULL,
+              balance_type TEXT NOT NULL,
+              amount INTEGER NOT NULL DEFAULT 0,
+              FOREIGN KEY (diary_id) REFERENCES diary(id),
+              FOREIGN KEY (cash_balance_category_id) REFERENCES cash_balance_category(id)
             );`
           );
           tx.executeSql(
             `CREATE TABLE IF NOT EXISTS cash_balance_category (
               id INTEGER PRIMARY KEY AUTOINCREMENT,
-              name TEXT
+              name TEXT NOT NULL
             );`
           );
         },
@@ -46,6 +48,7 @@ export const useInitDatabase = (): UseInitDatabaseType => {
           setError(error.message);
         },
         () => {
+          console.log("database created");
           setCreatedSuccess(true);
         }
       );

@@ -10,6 +10,7 @@ import { DiaryEditScreen } from "./src/screens/DiaryEditScreen";
 import { useInitDatabase } from "./src/hooks/useInitDatabase";
 import { useFetchDiary } from "./src/hooks/useFetchDiary";
 import { useEffect } from "react";
+import { deleteAllDiary, deleteAllTable } from "./src/utils/DatabaseUtils";
 
 const Stack = createStackNavigator();
 
@@ -19,6 +20,10 @@ export default function App() {
   if (error) {
     console.log("Error: " + error);
   }
+  useEffect(() => {
+    // deleteAllDiary();
+    // deleteAllTable();
+  }, []);
 
   return (
     <NavigationContainer>

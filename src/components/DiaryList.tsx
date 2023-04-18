@@ -9,73 +9,57 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-interface DiaryBalanceListProps {
+interface DiaryListProps {
   diaries: DiaryData[];
-  // screenType: "list" | "detail";
 }
 
-export const DiaryBalanceList: React.FC<DiaryBalanceListProps> = (props) => {
+export const DiaryList: React.FC<DiaryListProps> = (props) => {
   const navigation = useNavigation();
-  const isListScreen = useRoute().name === "DiaryList";
-  const touchOpacity = isListScreen ? 0.5 : 1;
 
   const { diaries } = props;
 
   const onPress = () => {
-    if (isListScreen) {
-      navigation.navigate("DiaryDetail");
-    }
+    navigation.navigate("DiaryDetail");
   };
 
-  const renderDiary = () => {
-    return (
+  return (
+    <SafeAreaView
+      style={styles.diaryListContainer}
+      edges={["right", "left", "bottom"]}
+    >
       <ScrollView>
         {diaries.map((diary, index) => {
           return (
             <TouchableOpacity
               onPress={() => onPress()}
-              style={styles.diaryBalanceListItem}
-              activeOpacity={touchOpacity}
+              style={styles.diaryListItem}
+              activeOpacity={1}
               key={index}
             >
               <View>
-                <Text style={styles.diaryBalanceListItemTitle}>
-                  {diary.title}
-                </Text>
-                <Text style={styles.diaryBalanceListItemDate}>
-                  {diary.date}
-                </Text>
+                <Text style={styles.diaryListItemTitle}>{diary.title}</Text>
+                <Text style={styles.diaryListItemDate}>{diary.date}</Text>
               </View>
               <View>
-                <Text style={styles.diaryBalanceListItemAmount}>￥1000</Text>
+                <Text style={styles.diaryListItemAmount}>￥1000</Text>
               </View>
             </TouchableOpacity>
           );
         })}
       </ScrollView>
-    );
-  };
-
-  return (
-    <SafeAreaView
-      style={styles.diaryBalanceListContainer}
-      edges={["right", "left", "bottom"]}
-    >
-      {renderDiary()}
     </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  diaryBalanceListContainer: {
+  diaryListContainer: {
     flex: 1,
     paddingTop: 0,
     marginTop: 0,
     height: 325,
   },
-  diaryBalanceListItem: {
+  diaryListItem: {
     height: 70,
-    backgroundColor: "gray",
     // 横並びにする
     flexDirection: "row",
     //要素間にスペースを開ける
@@ -86,19 +70,16 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderColor: "rgba(0,0,0,0.15)",
   },
-  diaryBalanceCreateListItem: {
-    height: 60,
-  },
-  diaryBalanceListItemTitle: {
+  diaryListItemTitle: {
     fontSize: 18,
     lineHeight: 32,
   },
-  diaryBalanceListItemDate: {
+  diaryListItemDate: {
     fontSize: 12,
     lineHeight: 16,
     color: "#848484",
   },
-  diaryBalanceListItemAmount: {
+  diaryListItemAmount: {
     fontSize: 16,
   },
 });

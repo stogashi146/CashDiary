@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import { DiaryBalanceList } from "../components/DiaryBalanceList";
+import { DiaryList } from "../components/DiaryList";
 import { MonthSelect } from "../components/MonthSelect";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceTotal } from "../components/BalanceTotal";
@@ -49,7 +49,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
       <IncomeExpenseTotal />
       <BalanceTotal />
       <SortPicker />
-      <DiaryBalanceList diaries={diaries} />
+      <DiaryList diaries={diaries} />
     </View>
   );
 };
