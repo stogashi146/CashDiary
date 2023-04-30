@@ -36,7 +36,7 @@ export const BalanceSummary: React.FC<balanceSummaryProps> = (props) => {
           {amountSummary.directionType === "minus" && (
             <AntDesign name="minus" size={24} color={"black"} />
           )}
-          ￥{amountSummary.total}
+          ￥{Math.abs(amountSummary.total)}
         </Text>
       </View>
     </View>

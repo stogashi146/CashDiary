@@ -66,15 +66,16 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
         GROUP BY d.id`,
         [],
         (_, { rows }) => {
-          console.log(rows);
-
+          const totals: string[] = [];
           rows._array.forEach((row: DiaryBalanceData) => {
             // totalがnullの場合は0をセット
             if (!row.total) {
               row.total = "0";
             }
+            totals.push(row.total);
           });
           setDiaryBalances(rows._array);
+          calcAmountSummary(totals);
         },
         (_, error) => {
           console.log("error", error);
@@ -88,11 +89,56 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
     navigation.navigate("DiaryCreate");
   };
 
+  //　日記毎の合計金額から、内訳を計算する
+  const calcAmountSummary = (diaryAmount: string[]) => {
+    const summary: AmountSummaryData = {
+      expense: 0,
+      income: 0,
+      total: 0,
+      directionType: "zero",
+    };
+    var total: number = 0;
+
+    diaryAmount.forEach((amount) => {
+      const num_amount = Number(amount);
+      switch (Math.sign(num_amount)) {
+        case 1:
+          summary.income += Math.abs(num_amount);
+          break;
+        case -1:
+          summary.expense += Math.abs(num_amount);
+          break;
+        default:
+          break;
+      }
+      total += num_amount;
+    });
+
+    // amountSummaryの計算
+    setAmountSummary({
+      expense: summary.expense,
+      income: summary.income,
+      total: total,
+      directionType: getDirectionType(total),
+    });
+  };
+
+  // directionTypeを判定する
+  const getDirectionType = (value: number) => {
+    switch (Math.sign(value)) {
+      case 1:
+        return "plus";
+      case -1:
+        return "minus";
+      default:
+        return "zero";
+    }
+  };
+
   return (
     <View style={styles.container}>
       <MonthSelect handleSetMonth={handleSetMonth} />
-      {/* <BalanceSummary /> */}
-      {/* <BalanceTotal /> */}
+      <BalanceSummary amountSummary={amountSummary} />
       <SortPicker />
       <DiaryList diaryBalances={diaryBalances} />
     </View>
