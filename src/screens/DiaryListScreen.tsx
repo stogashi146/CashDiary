@@ -65,21 +65,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
         }
       );
     });
-
-    db.transaction((tx) => {
-      tx.executeSql(
-        `SELECT * FROM cash_balance`,
-        [],
-        (_, { rows }) => {
-          console.log("rows", rows._array);
-        },
-        (_, error) => {
-          console.log("error", error);
-          return false;
-        }
-      );
-    });
-  }, []);
+  }, [diaryBalances]);
 
   const onPressAddIcon = () => {
     navigation.navigate("DiaryCreate");

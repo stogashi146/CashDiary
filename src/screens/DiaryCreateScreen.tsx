@@ -69,7 +69,7 @@ export const DiaryCreateScreen: React.FC = () => {
 
   useEffect(() => {
     setAmountSummary(calculatedAmountSummary);
-  }, [balances, amountSummary]);
+  }, [calculatedAmountSummary]);
 
   const onPressSaveIcon = async () => {
     // titleが空文字の場合は保存しない
@@ -105,7 +105,6 @@ export const DiaryCreateScreen: React.FC = () => {
       },
       (error) => {
         console.log(error);
-
         Alert.alert("日記・家計簿を保存に失敗しました");
       },
       () => {
@@ -145,6 +144,7 @@ export const DiaryCreateScreen: React.FC = () => {
       </View>
     );
   };
+  console.log(amountSummary);
 
   return (
     <KeyboardAvoidingView
