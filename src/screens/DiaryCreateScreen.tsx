@@ -72,11 +72,6 @@ export const DiaryCreateScreen: React.FC = () => {
   }, [calculatedAmountSummary]);
 
   const onPressSaveIcon = async () => {
-    // titleが空文字の場合は保存しない
-    if (diaryEntry.title === "") {
-      return Alert.alert("保存に失敗しました", "タイトルを入力してください。");
-    }
-
     db.transaction(
       (tx) => {
         tx.executeSql(

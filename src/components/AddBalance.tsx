@@ -88,7 +88,10 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
                   size={26}
                   color="black"
                   style={styles.modalCloseIcon}
-                  onPress={() => setModalVisible(false)}
+                  onPress={() => {
+                    setModalVisible(false);
+                    resetValues();
+                  }}
                 />
                 <View style={styles.addBalanceRow}>
                   <Text style={styles.addBalanceLabel}>メモ</Text>
@@ -98,14 +101,6 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
                     onChangeText={(text) => setTitle(text)}
                   />
                 </View>
-                {/* <View style={styles.addBalanceRow}>
-                  <Text style={styles.addBalanceLabel}>カテゴリ</Text>
-                  <TextInput
-                    style={styles.addBalanceText}
-                    value={category}
-                    onChangeText={(text) => setCategory(text)}
-                  />
-                </View> */}
                 <View style={styles.checkboxBalanceRow}>
                   <Text>支出</Text>
                   <CheckBox
@@ -129,10 +124,13 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
 
                 <View style={styles.addBalanceRow}>
                   <Text style={styles.addBalanceLabel}>金額</Text>
-
+                  {/* 文字列を許容しない */}
                   <TextInput
                     onChangeText={(text) => {
-                      text != "0" && setBalanceAmount(Number(text));
+                      // 数字のみ許容
+                      if (/^\d+$/.test(text)) {
+                        text != "0" && setBalanceAmount(Number(text));
+                      }
                     }}
                     value={balanceAmount.toString()}
                     style={[
