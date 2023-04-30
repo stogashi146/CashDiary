@@ -3,13 +3,15 @@ import { StyleSheet, Text, View, ViewStyle } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 
 interface IncomeExpenseTotalProps {
+  expense: number;
+  income: number;
   style?: ViewStyle;
 }
 
 export const IncomeExpenseTotal: React.FC<IncomeExpenseTotalProps> = (
   props
 ) => {
-  const { style } = props;
+  const { expense, income, style } = props;
   const combinedStyles = StyleSheet.compose(
     styles.incomeExpenseContainer,
     style
@@ -18,17 +20,17 @@ export const IncomeExpenseTotal: React.FC<IncomeExpenseTotalProps> = (
   return (
     <View style={styles.incomeExpenseContainer}>
       <View style={styles.incomeExpenseInnerContainer}>
-        <Text style={styles.incomeExpenseInnerLabel}>収入</Text>
-        <Text style={styles.incomeInnerAmount}>
-          <AntDesign name="plus" size={16} iconStyle={styles.incomeIcon} />
-          ￥5,000
+        <Text style={styles.incomeExpenseInnerLabel}>支出</Text>
+        <Text style={styles.expenseInnerAmount}>
+          <AntDesign name="minus" size={16} iconStyle={styles.expenseIcon} />￥
+          {expense}
         </Text>
       </View>
       <View style={styles.incomeExpenseInnerContainer}>
-        <Text style={styles.incomeExpenseInnerLabel}>支出</Text>
-        <Text style={styles.expenseInnerAmount}>
-          <AntDesign name="plus" size={16} iconStyle={styles.expenseIcon} />
-          ￥3,000
+        <Text style={styles.incomeExpenseInnerLabel}>収入</Text>
+        <Text style={styles.incomeInnerAmount}>
+          <AntDesign name="plus" size={16} iconStyle={styles.incomeIcon} />￥
+          {income}
         </Text>
       </View>
     </View>

@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { CheckBox } from "@rneui/themed";
@@ -17,15 +18,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { SquareButton } from "./SquareButton";
 
 interface AddBalanceProps {
-  handleCreateBalance?: (balance: BalanceData) => void;
+  handleCreateBalance?: (balance: CashBalanceData) => void;
 }
 
 export const AddBalance: React.FC<AddBalanceProps> = (props) => {
   const [title, setTitle] = useState("");
-  const [category, setCategory] = useState("");
   const [balanceAmount, setBalanceAmount] = useState(0);
   const [checkedBalanceIndex, setCheckedBalanceIndex] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
+
+  // 収入、支出を定数で定義
+  const INCOME_EXPENSE_TYPE = { EXPENSE: 0, INCOME: 1 };
 
   const { handleCreateBalance } = props;
 
@@ -34,12 +37,22 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
 
     handleCreateBalance({
       title: title,
-      category: category,
-      balanceDirection: checkedBalanceIndex === 0 ? "income" : "expense",
+      incomeExpenseType:
+        checkedBalanceIndex === INCOME_EXPENSE_TYPE.EXPENSE
+          ? "expense"
+          : "income",
       amount: balanceAmount,
     });
     setModalVisible(false);
+    resetValues();
   };
+
+  const resetValues = () => {
+    setTitle("");
+    setBalanceAmount(0);
+    setCheckedBalanceIndex(0);
+  };
+  console.log(balanceAmount);
 
   return (
     <View style={[styles.addBalanceContainer]}>
@@ -86,16 +99,16 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
                     onChangeText={(text) => setTitle(text)}
                   />
                 </View>
-                <View style={styles.addBalanceRow}>
+                {/* <View style={styles.addBalanceRow}>
                   <Text style={styles.addBalanceLabel}>カテゴリ</Text>
                   <TextInput
                     style={styles.addBalanceText}
                     value={category}
                     onChangeText={(text) => setCategory(text)}
                   />
-                </View>
+                </View> */}
                 <View style={styles.checkboxBalanceRow}>
-                  <Text>収入</Text>
+                  <Text>支出</Text>
                   <CheckBox
                     checked={checkedBalanceIndex === 0}
                     onPress={() => setCheckedBalanceIndex(0)}
@@ -104,7 +117,7 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
                     size={18}
                     style={styles.checkBox}
                   />
-                  <Text>支出</Text>
+                  <Text>収入</Text>
                   <CheckBox
                     checked={checkedBalanceIndex === 1}
                     onPress={() => setCheckedBalanceIndex(1)}
@@ -117,13 +130,21 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
 
                 <View style={styles.addBalanceRow}>
                   <Text style={styles.addBalanceLabel}>金額</Text>
+
                   <TextInput
-                    value={balanceAmount.toString()}
                     onChangeText={(text) => {
-                      setBalanceAmount(Number(text));
+                      text != "0" && setBalanceAmount(Number(text));
                     }}
-                    style={[styles.addBalanceText, styles.amountText]}
+                    value={balanceAmount.toString()}
+                    style={[
+                      styles.addBalanceText,
+                      styles.amountText,
+                      checkedBalanceIndex === INCOME_EXPENSE_TYPE.EXPENSE
+                        ? styles.expenseColor
+                        : styles.incomeColor,
+                    ]}
                     keyboardType="numeric"
+                    placeholder="0"
                   />
                 </View>
                 <View style={styles.addButtonContainer}>
@@ -216,4 +237,6 @@ const styles = StyleSheet.create({
   addButtonContainer: {
     marginTop: 20,
   },
+  expenseColor: { color: "#FF0000" },
+  incomeColor: { color: "#0094FF" },
 });

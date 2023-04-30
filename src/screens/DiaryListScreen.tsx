@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import { DiaryList } from "../components/DiaryList";
 import { MonthSelect } from "../components/MonthSelect";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
-import { BalanceTotal } from "../components/BalanceTotal";
+import { BalanceSummary } from "../components/BalanceSummary";
 import { SortPicker } from "../components/SortPicker";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
@@ -16,6 +16,12 @@ interface DiaryListScreenProps {
 export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
   const navigation = useNavigation();
   const [diaries, setDiaries] = useState<DiaryData[]>([]);
+  const [amountSummary, setAmountSummary] = useState<AmountSummaryData>({
+    expense: 0,
+    income: 0,
+    total: 0,
+    directionType: "zero",
+  });
   const { fetchAllDiary, fetchDiaries } = useFetchDiary();
 
   useEffect(() => {
@@ -30,14 +36,18 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
         />
       ),
     });
+
+    // DBから全ての日記を取得
     fetchAllDiary();
-  }, []);
-
-  useEffect(() => {
+    // stateに日記をセット
     const diaries = fetchDiaries;
-
     setDiaries(diaries);
   }, [fetchDiaries]);
+
+  // useEffect(() => {
+  //   const { calculatedAmountSummary } = useCalcAmountSummary(balances);
+  //   setAmountSummary(calculatedAmountSummary);
+  // }, [balances]);
 
   const onPressAddIcon = () => {
     navigation.navigate("DiaryCreate");
@@ -46,8 +56,8 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
   return (
     <View style={styles.container}>
       <MonthSelect />
-      <IncomeExpenseTotal />
-      <BalanceTotal />
+      {/* <BalanceSummary /> */}
+      {/* <BalanceTotal /> */}
       <SortPicker />
       <DiaryList diaries={diaries} />
     </View>

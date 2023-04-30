@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
+import * as SQLite from "expo-sqlite";
 import {
+  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -9,7 +11,7 @@ import {
 } from "react-native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
-import { BalanceTotal } from "../components/BalanceTotal";
+import { BalanceSummary } from "../components/BalanceSummary";
 import { AddBalance } from "../components/AddBalance";
 import { DiaryEntryForm } from "../components/DiaryEntryForm";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -20,18 +22,26 @@ import {
   formatDateToYYYYMMDD,
 } from "../utils/DateFormat";
 import { GrayBar } from "../components/GrayBar";
-import { insertDiary } from "../utils/DatabaseUtils";
 import { useInsertDiary } from "../hooks/useInsertDiary";
 import { BalanceList } from "../components/BalanceList";
+import { DB_NAME } from "../../config/database";
+import { useCalcAmountSummary } from "../hooks/useCalcAmountSummary";
 
 export const DiaryCreateScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [amountSummary, setAmountSummary] = useState<AmountSummaryData>({
+    expense: 0,
+    income: 0,
+    total: 0,
+    directionType: "zero",
+  });
   // 定数を定義
   const TabIndex = {
     DIARY: 0,
     BALANCE: 1,
   };
+  const db = SQLite.openDatabase(DB_NAME);
 
   const [diaryEntry, setDiaryEntry] = useState<DiaryData>({
     date: formatDateToYYYYMMDD(new Date()),
@@ -39,7 +49,7 @@ export const DiaryCreateScreen: React.FC = () => {
     content: "",
   });
   const [balances, setBalances] = useState<CashBalanceData[]>([]);
-  const { insertDiary, diaryInsertedSuccess, error } = useInsertDiary();
+  const { calculatedAmountSummary } = useCalcAmountSummary(balances);
 
   const navigation = useNavigation();
   useEffect(() => {
@@ -55,18 +65,32 @@ export const DiaryCreateScreen: React.FC = () => {
         />
       ),
     });
-  }, [diaryEntry.date, balances]);
+  }, [diaryEntry]);
 
-  const onPressSaveIcon = () => {
-    insertDiary(diaryEntry);
-    if (error) {
-      console.log("Error: " + error);
-      return alert("日記を保存に失敗しました。");
+  useEffect(() => {
+    setAmountSummary(calculatedAmountSummary);
+  }, [balances]);
+
+  const onPressSaveIcon = async () => {
+    // titleが空文字の場合は保存しない
+    if (diaryEntry.title === "") {
+      return Alert.alert("保存に失敗しました", "タイトルを入力してください。");
     }
 
-    if (diaryInsertedSuccess) {
-      return alert("日記を保存しました。");
-    }
+    db.transaction((tx) => {
+      tx.executeSql(
+        "INSERT INTO diary (date, title, content) VALUES (?, ?, ?)",
+        [diaryEntry.date, diaryEntry.title, diaryEntry.content],
+        () => {
+          Alert.alert("日記を保存しました");
+          navigation.navigate("DiaryList");
+        },
+        () => {
+          Alert.alert("日記を保存に失敗しました");
+          return false;
+        }
+      );
+    });
   };
 
   const handleSetDate = (date: Date) => {
@@ -118,8 +142,11 @@ export const DiaryCreateScreen: React.FC = () => {
         ) : (
           <View>
             {renderTabPanel()}
-            <IncomeExpenseTotal />
-            <BalanceTotal />
+            {/* <IncomeExpenseTotal
+              income={amountSummary.income}
+              expense={amountSummary.expense}
+            /> */}
+            <BalanceSummary amountSummary={amountSummary} />
             <GrayBar style={{ justifyContent: "center" }}></GrayBar>
             <BalanceList balances={balances} />
             <AddBalance handleCreateBalance={handleCreateBalance} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -16,6 +16,9 @@ interface BalanceListProps {
 export const BalanceList: React.FC<BalanceListProps> = (props) => {
   const navigation = useNavigation();
   const { balances } = props;
+  console.log(balances);
+
+  useEffect(() => {}, [balances]);
 
   return (
     <SafeAreaView
@@ -35,7 +38,14 @@ export const BalanceList: React.FC<BalanceListProps> = (props) => {
                 <Text style={styles.balanceListItemTitle}>{balance.title}</Text>
               </View>
               <View>
-                <Text style={styles.balanceListItemAmount}>
+                <Text
+                  style={
+                    balance.incomeExpenseType === "expense"
+                      ? styles.expenseColor
+                      : styles.incomeColor
+                  }
+                >
+                  {balance.incomeExpenseType === "expense" ? "-" : "+"}
                   {balance.amount}
                 </Text>
               </View>
@@ -49,7 +59,6 @@ export const BalanceList: React.FC<BalanceListProps> = (props) => {
 
 const styles = StyleSheet.create({
   balanceListContainer: {
-    flex: 1,
     paddingTop: 0,
     marginTop: 0,
     height: 325,
@@ -73,4 +82,6 @@ const styles = StyleSheet.create({
   balanceListItemAmount: {
     fontSize: 16,
   },
+  expenseColor: { color: "#FF0000" },
+  incomeColor: { color: "#0094FF" },
 });
