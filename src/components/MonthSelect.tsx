@@ -3,7 +3,12 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { formatDateToYYYYMM } from "../utils/DateFormat";
 
-export const MonthSelect: React.FC = () => {
+interface MonthSelectmProps {
+  handleSetMonth: (date: Date) => void;
+}
+
+export const MonthSelect: React.FC<MonthSelectmProps> = (props) => {
+  const { handleSetMonth } = props;
   // 現在の日付をYYYY年MM月の形式にする
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -12,9 +17,13 @@ export const MonthSelect: React.FC = () => {
     const month = currentMonth.getMonth();
 
     if (type === "prev") {
-      setCurrentMonth(new Date(year, month - 1));
+      const newDate = new Date(year, month - 1);
+      setCurrentMonth(newDate);
+      handleSetMonth(newDate);
     } else {
-      setCurrentMonth(new Date(year, month + 1));
+      const newDate = new Date(year, month + 1);
+      setCurrentMonth(newDate);
+      handleSetMonth(newDate);
     }
   };
 

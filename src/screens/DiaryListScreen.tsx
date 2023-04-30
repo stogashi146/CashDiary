@@ -9,6 +9,10 @@ import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { DB_NAME } from "../../config/database";
+import {
+  formatDateToYYYYMMDD,
+  formatDateToYYYYMMIso,
+} from "../utils/DateFormat";
 
 interface DiaryListScreenProps {
   navigation: any;
@@ -17,6 +21,7 @@ interface DiaryListScreenProps {
 export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
   const db = SQLite.openDatabase(DB_NAME);
   const navigation = useNavigation();
+  const [currentMonth, setCurrentMonth] = useState(new Date());
   const [diaryBalances, setDiaryBalances] = useState<DiaryBalanceData[]>([]);
   const [amountSummary, setAmountSummary] = useState<AmountSummaryData>({
     expense: 0,
@@ -24,6 +29,11 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
     total: 0,
     directionType: "zero",
   });
+
+  const handleSetMonth = (date: Date) => {
+    setCurrentMonth(date);
+    console.log(date);
+  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -40,6 +50,9 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
   }, []);
 
   useEffect(() => {
+    console.log("SELECT");
+    console.log(formatDateToYYYYMMIso(currentMonth));
+
     db.transaction((tx) => {
       tx.executeSql(
         `SELECT
@@ -49,10 +62,14 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
           SUM(CASE WHEN c.balance_type = 'income' THEN c.amount ELSE -c.amount END) AS total
         FROM diary AS d
         LEFT JOIN cash_balance AS c ON d.id = c.diary_id
+        WHERE d.date LIKE '${formatDateToYYYYMMIso(currentMonth)}%'
         GROUP BY d.id`,
         [],
         (_, { rows }) => {
+          console.log(rows);
+
           rows._array.forEach((row: DiaryBalanceData) => {
+            // totalがnullの場合は0をセット
             if (!row.total) {
               row.total = "0";
             }
@@ -65,7 +82,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
         }
       );
     });
-  }, [diaryBalances]);
+  }, [currentMonth]);
 
   const onPressAddIcon = () => {
     navigation.navigate("DiaryCreate");
@@ -73,7 +90,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
 
   return (
     <View style={styles.container}>
-      <MonthSelect />
+      <MonthSelect handleSetMonth={handleSetMonth} />
       {/* <BalanceSummary /> */}
       {/* <BalanceTotal /> */}
       <SortPicker />

@@ -15,6 +15,10 @@ export const formatDateToYYYYMM = (date: Date): string => {
   return format(date, "yyyy年MM月", { locale: ja });
 };
 
+export const formatDateToYYYYMMIso = (date: Date): string => {
+  return format(date, "yyyy-MM", { locale: ja });
+};
+
 export const formatDateToYYYYMMDD = (date: Date): string => {
   return format(date, "yyyy-MM-dd", { locale: ja });
 };
