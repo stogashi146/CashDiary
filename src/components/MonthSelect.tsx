@@ -1,21 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { formatDateToYYYYMM } from "../utils/DateFormat";
 
 export const MonthSelect: React.FC = () => {
   // 現在の日付をYYYY年MM月の形式にする
-  const [currentMonth, setCurrentMonth] = React.useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(new Date());
 
   const onPressArrow = (type: "prev" | "next") => {
+    const year = currentMonth.getFullYear();
+    const month = currentMonth.getMonth();
+
     if (type === "prev") {
-      setCurrentMonth(
-        new Date(currentMonth.setMonth(currentMonth.getMonth() - 1))
-      );
+      setCurrentMonth(new Date(year, month - 1));
     } else {
-      setCurrentMonth(
-        new Date(currentMonth.setMonth(currentMonth.getMonth() + 1))
-      );
+      setCurrentMonth(new Date(year, month + 1));
     }
   };
 
