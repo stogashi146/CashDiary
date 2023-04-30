@@ -8,7 +8,7 @@ import { DiaryCreateScreen } from "./src/screens/DiaryCreateScreen";
 import { DiaryDetailScreen } from "./src/screens/DiaryDetailScreen";
 import { DiaryEditScreen } from "./src/screens/DiaryEditScreen";
 import { useInitDatabase } from "./src/hooks/useInitDatabase";
-import { useFetchDiary } from "./src/hooks/useFetchDiary";
+// import { useFetchDiary } from "./src/hooks/useFetchDiary";
 import { useEffect } from "react";
 import { deleteAllDiary, deleteAllTable } from "./src/utils/DatabaseUtils";
 

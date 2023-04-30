@@ -16,7 +16,6 @@ interface BalanceListProps {
 export const BalanceList: React.FC<BalanceListProps> = (props) => {
   const navigation = useNavigation();
   const { balances } = props;
-  console.log(balances);
 
   useEffect(() => {}, [balances]);
 

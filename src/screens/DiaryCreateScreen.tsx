@@ -69,7 +69,7 @@ export const DiaryCreateScreen: React.FC = () => {
 
   useEffect(() => {
     setAmountSummary(calculatedAmountSummary);
-  }, [balances]);
+  }, [balances, amountSummary]);
 
   const onPressSaveIcon = async () => {
     // titleが空文字の場合は保存しない
@@ -77,20 +77,42 @@ export const DiaryCreateScreen: React.FC = () => {
       return Alert.alert("保存に失敗しました", "タイトルを入力してください。");
     }
 
-    db.transaction((tx) => {
-      tx.executeSql(
-        "INSERT INTO diary (date, title, content) VALUES (?, ?, ?)",
-        [diaryEntry.date, diaryEntry.title, diaryEntry.content],
-        () => {
-          Alert.alert("日記を保存しました");
-          navigation.navigate("DiaryList");
-        },
-        () => {
-          Alert.alert("日記を保存に失敗しました");
-          return false;
-        }
-      );
-    });
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          "INSERT INTO diary (date, title, content) VALUES (?, ?, ?)",
+          [diaryEntry.date, diaryEntry.title, diaryEntry.content],
+          (_, result) => {
+            const diaryId = result.insertId;
+            if (!diaryId) {
+              return tx.executeSql("ROLLBACK");
+            }
+
+            balances.forEach((balance) => {
+              tx.executeSql(
+                "INSERT INTO cash_balance (diary_id, title, balance_type, amount, cash_balance_category_id) VALUES (?, ?, ?, ?, ?)",
+                [
+                  diaryId,
+                  balance.title,
+                  balance.incomeExpenseType,
+                  balance.amount,
+                  0,
+                ]
+              );
+            });
+          }
+        );
+      },
+      (error) => {
+        console.log(error);
+
+        Alert.alert("日記・家計簿を保存に失敗しました");
+      },
+      () => {
+        Alert.alert("日記・家計簿を保存に成功しました");
+        navigation.navigate("DiaryList");
+      }
+    );
   };
 
   const handleSetDate = (date: Date) => {

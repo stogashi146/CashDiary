@@ -10,13 +10,13 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 interface DiaryListProps {
-  diaries: DiaryData[];
+  diaryBalances: DiaryBalanceData[];
 }
 
 export const DiaryList: React.FC<DiaryListProps> = (props) => {
   const navigation = useNavigation();
 
-  const { diaries } = props;
+  const { diaryBalances } = props;
 
   const onPress = () => {
     navigation.navigate("DiaryDetail");
@@ -28,7 +28,7 @@ export const DiaryList: React.FC<DiaryListProps> = (props) => {
       edges={["right", "left", "bottom"]}
     >
       <ScrollView>
-        {diaries.map((diary, index) => {
+        {diaryBalances.map((diaryBalance, index) => {
           return (
             <TouchableOpacity
               onPress={() => onPress()}
@@ -37,11 +37,17 @@ export const DiaryList: React.FC<DiaryListProps> = (props) => {
               key={index}
             >
               <View>
-                <Text style={styles.diaryListItemTitle}>{diary.title}</Text>
-                <Text style={styles.diaryListItemDate}>{diary.date}</Text>
+                <Text style={styles.diaryListItemTitle}>
+                  {diaryBalance.title}
+                </Text>
+                <Text style={styles.diaryListItemDate}>
+                  {diaryBalance.date}
+                </Text>
               </View>
               <View>
-                <Text style={styles.diaryListItemAmount}>￥1000</Text>
+                <Text style={styles.diaryListItemAmount}>
+                  {diaryBalance.total}
+                </Text>
               </View>
             </TouchableOpacity>
           );

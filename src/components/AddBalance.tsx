@@ -52,7 +52,6 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
     setBalanceAmount(0);
     setCheckedBalanceIndex(0);
   };
-  console.log(balanceAmount);
 
   return (
     <View style={[styles.addBalanceContainer]}>
