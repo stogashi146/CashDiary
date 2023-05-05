@@ -196,7 +196,7 @@ export const DiaryEditScreen: React.FC<RouteParams> = () => {
       {renderTabPanel()}
       {selectedIndex == TabIndex.DIARY ? (
         <ScrollView>
-          <DiaryEntryForm handleSetDiary={handleSetDiary} />
+          <DiaryEntryForm diary={diaryEntry} handleSetDiary={handleSetDiary} />
         </ScrollView>
       ) : (
         <View>
