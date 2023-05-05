@@ -83,16 +83,21 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
           <SafeAreaView>
             <View style={styles.modalContent}>
               <ScrollView>
-                <AntDesign
-                  name="close"
-                  size={26}
-                  color="black"
-                  style={styles.modalCloseIcon}
-                  onPress={() => {
-                    setModalVisible(false);
-                    resetValues();
-                  }}
-                />
+                <View style={styles.modalTitleContainer}>
+                  <Text style={styles.modalTitleText}>新規追加</Text>
+                  <View style={styles.modalCloseIconContainer}>
+                    <AntDesign
+                      name="close"
+                      size={26}
+                      color="black"
+                      style={styles.modalCloseIcon}
+                      onPress={() => {
+                        setModalVisible(false);
+                        resetValues();
+                      }}
+                    />
+                  </View>
+                </View>
                 <View style={styles.addBalanceRow}>
                   <Text style={styles.addBalanceLabel}>メモ</Text>
                   <TextInput
@@ -174,17 +179,32 @@ const styles = StyleSheet.create({
     paddingTop: 5,
     // height: Dimensions.get("window").height - 150,
   },
+  modalTitleContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    alignItems: "center",
+  },
+  modalTitleText: {
+    // 上下左右中央に寄せtる
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "600",
+    marginLeft: 5,
+  },
+  modalCloseIconContainer: {
+    flex: 1,
+    alignItems: "flex-end",
+  },
+  modalCloseIcon: {
+    marginVertical: 15,
+    color: "rgba(0,0,0,0.5)",
+  },
   modalBalanceAddButton: {
     padding: 12,
   },
   modalBalanceAddText: {
     color: "white",
     paddingLeft: 3,
-  },
-  modalCloseIcon: {
-    alignSelf: "flex-end",
-    marginVertical: 15,
-    color: "rgba(0,0,0,0.5)",
   },
   hideModalButton: {
     backgroundColor: "red",

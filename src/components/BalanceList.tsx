@@ -8,14 +8,16 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { AntDesign } from "@expo/vector-icons";
 
 interface BalanceListProps {
   balances: CashBalanceData[];
+  handleDeleteBalance: (deleteIndex: number) => void;
 }
 
 export const BalanceList: React.FC<BalanceListProps> = (props) => {
   const navigation = useNavigation();
-  const { balances } = props;
+  const { balances, handleDeleteBalance } = props;
 
   useEffect(() => {}, [balances]);
 
@@ -33,20 +35,33 @@ export const BalanceList: React.FC<BalanceListProps> = (props) => {
               activeOpacity={1}
               key={index}
             >
-              <View>
-                <Text style={styles.balanceListItemTitle}>{balance.title}</Text>
-              </View>
-              <View>
-                <Text
-                  style={
-                    balance.incomeExpenseType === "expense"
-                      ? styles.expenseColor
-                      : styles.incomeColor
-                  }
+              <Text style={styles.balanceListItemTitle}>{balance.title}</Text>
+              <View style={styles.rightContainer}>
+                <TouchableOpacity
+                  onPress={() => {
+                    handleDeleteBalance(index);
+                  }}
                 >
-                  {balance.incomeExpenseType === "expense" ? "-" : "+"}
-                  {balance.amount}
-                </Text>
+                  <AntDesign
+                    name="close"
+                    size={22}
+                    color="black"
+                    style={styles.deleteIcon}
+                  />
+                </TouchableOpacity>
+                <View style={styles.amountContainer}>
+                  <Text
+                    style={[
+                      balance.incomeExpenseType === "expense"
+                        ? styles.expenseColor
+                        : styles.incomeColor,
+                      styles.balanceListItemAmount,
+                    ]}
+                  >
+                    {balance.incomeExpenseType === "expense" ? "-" : "+"}
+                    {balance.amount}
+                  </Text>
+                </View>
               </View>
             </TouchableOpacity>
           );
@@ -68,18 +83,33 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     //要素間にスペースを開ける
     justifyContent: "space-between",
-    alignItems: "flex-end",
-    paddingVertical: 12,
-    paddingHorizontal: 19,
+    alignItems: "center",
     borderBottomWidth: 1,
     borderColor: "rgba(0,0,0,0.15)",
   },
   balanceListItemTitle: {
     fontSize: 18,
+    fontWeight: "500",
     lineHeight: 32,
+    paddingLeft: 15,
+  },
+  rightContainer: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+  },
+  deleteIcon: {
+    paddingBottom: 15,
+    paddingRight: 5,
+    color: "rgba(0,0,0,0.5)",
+  },
+  amountContainer: {
+    alignSelf: "flex-end",
   },
   balanceListItemAmount: {
     fontSize: 16,
+    fontWeight: "500",
+    paddingRight: 15,
   },
   expenseColor: { color: "#FF0000" },
   incomeColor: { color: "#0094FF" },

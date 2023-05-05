@@ -139,6 +139,14 @@ export const DiaryCreateScreen: React.FC = () => {
     setBalances([...balances, balance]);
   };
 
+  const handleDeleteBalance = (deleteIndex: number) => {
+    setBalances(
+      balances.filter((balance, i) => {
+        return i !== deleteIndex;
+      })
+    );
+  };
+
   const renderTabPanel = () => {
     return (
       <View style={styles.tabContainer}>
@@ -172,7 +180,10 @@ export const DiaryCreateScreen: React.FC = () => {
         <View>
           <BalanceSummary amountSummary={amountSummary} />
           <GrayBar style={{ justifyContent: "center" }}></GrayBar>
-          <BalanceList balances={balances} />
+          <BalanceList
+            balances={balances}
+            handleDeleteBalance={handleDeleteBalance}
+          />
           <AddBalance handleCreateBalance={handleCreateBalance} />
         </View>
       )}
