@@ -11,24 +11,37 @@ import {
   Platform,
 } from "react-native";
 import { EvilIcons } from "@expo/vector-icons";
-import React, { useState } from "react";
-import { formatDateWithWeekday } from "../utils/DateFormat";
+import React, { useEffect, useState } from "react";
+import {
+  formatDateToYYYYMMDD,
+  formatDateWithWeekday,
+} from "../utils/DateFormat";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 interface DiaryEntryFormProps {
-  handleSetDate: (date: Date) => void;
-  handleSetTitle: (title: string) => void;
-  handleSetContent: (content: string) => void;
+  diary: DiaryData;
+  handleSetDiary: (diary: DiaryData) => void;
+  // handleSetDate?: (date: Date) => void;
+  // handleSetTitle?: (title: string) => void;
+  // handleSetContent?: (content: string) => void;
 }
 
 export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
+  const { diary, handleSetDiary } = props;
+
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [diaryTitle, setDiaryTitle] = useState("");
-  const [diaryContent, setDiaryContent] = useState("");
+  const [changedDiary, setChangedDiary] = useState<DiaryData>({
+    date: formatDateToYYYYMMDD(new Date()),
+    title: "",
+    content: "",
+  });
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const { height } = Dimensions.get("window");
 
-  const { handleSetDate, handleSetTitle, handleSetContent } = props;
+  useEffect(() => {
+    setChangedDiary(diary);
+    setSelectedDate(new Date(diary.date));
+  }, [diary]);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -39,19 +52,39 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
   };
 
   const handleConfirm = (date: Date) => {
-    setSelectedDate(date);
     hideDatePicker();
-    handleSetDate(date);
+    setSelectedDate(date);
+    const diary: DiaryData = {
+      date: formatDateToYYYYMMDD(date),
+      title: changedDiary?.title || "",
+      content: changedDiary?.content || "",
+    };
+    changeData(diary);
   };
 
   const handleTitleChange = (title: string) => {
-    setDiaryTitle(title);
-    handleSetTitle(title);
+    const diary: DiaryData = {
+      date: changedDiary.date,
+      title: title,
+      content: changedDiary.content,
+    };
+    changeData(diary);
   };
 
   const handleContentChange = (content: string) => {
-    setDiaryContent(content);
-    handleSetContent(content);
+    const diary: DiaryData = {
+      date: changedDiary.date,
+      title: changedDiary.title,
+      content: content,
+    };
+    changeData(diary);
+  };
+
+  const changeData = (data: DiaryData) => {
+    console.log(data);
+
+    setChangedDiary(data);
+    handleSetDiary(data);
   };
 
   return (
@@ -86,7 +119,7 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
             onChangeText={(text) => {
               handleTitleChange(text);
             }}
-            value={diaryTitle}
+            value={changedDiary?.title}
             placeholder="タイトル"
           />
         </View>
@@ -97,7 +130,7 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
             onChangeText={(text) => {
               handleContentChange(text);
             }}
-            value={diaryContent}
+            value={changedDiary?.content}
             scrollEnabled={false}
             placeholder="本文"
           />

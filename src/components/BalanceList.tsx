@@ -12,12 +12,14 @@ import { AntDesign } from "@expo/vector-icons";
 
 interface BalanceListProps {
   balances: CashBalanceData[];
-  handleDeleteBalance: (deleteIndex: number) => void;
+  handleDeleteBalance?: (deleteIndex: number) => void;
 }
 
 export const BalanceList: React.FC<BalanceListProps> = (props) => {
   const navigation = useNavigation();
+  const route = useRoute();
   const { balances, handleDeleteBalance } = props;
+  const readOnly = route.name === "DiaryDetail";
 
   useEffect(() => {}, [balances]);
 
@@ -30,25 +32,26 @@ export const BalanceList: React.FC<BalanceListProps> = (props) => {
         {balances.map((balance, index) => {
           return (
             <TouchableOpacity
-              // onPress={() => onPress()}
               style={styles.balanceListItem}
               activeOpacity={1}
               key={index}
             >
               <Text style={styles.balanceListItemTitle}>{balance.title}</Text>
               <View style={styles.rightContainer}>
-                <TouchableOpacity
-                  onPress={() => {
-                    handleDeleteBalance(index);
-                  }}
-                >
-                  <AntDesign
-                    name="close"
-                    size={22}
-                    color="black"
-                    style={styles.deleteIcon}
-                  />
-                </TouchableOpacity>
+                {readOnly ? null : (
+                  <TouchableOpacity
+                    onPress={() => {
+                      handleDeleteBalance && handleDeleteBalance(index);
+                    }}
+                  >
+                    <AntDesign
+                      name="close"
+                      size={22}
+                      color="black"
+                      style={styles.deleteIcon}
+                    />
+                  </TouchableOpacity>
+                )}
                 <View style={styles.amountContainer}>
                   <Text
                     style={[

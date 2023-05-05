@@ -123,16 +123,12 @@ export const DiaryCreateScreen: React.FC = () => {
     );
   };
 
-  const handleSetDate = (date: Date) => {
-    setDiaryEntry({ ...diaryEntry, date: formatDateToYYYYMMDD(date) });
-  };
-
-  const handleSetTitle = (title: string) => {
-    setDiaryEntry({ ...diaryEntry, title });
-  };
-
-  const handleSetContent = (content: string) => {
-    setDiaryEntry({ ...diaryEntry, content });
+  const handleSetDiary = (diary: DiaryData) => {
+    setDiaryEntry({
+      date: diary.date,
+      title: diary.title,
+      content: diary.content,
+    });
   };
 
   const handleCreateBalance = (balance: CashBalanceData) => {
@@ -170,11 +166,7 @@ export const DiaryCreateScreen: React.FC = () => {
       {renderTabPanel()}
       {selectedIndex == TabIndex.DIARY ? (
         <ScrollView>
-          <DiaryEntryForm
-            handleSetDate={handleSetDate}
-            handleSetTitle={handleSetTitle}
-            handleSetContent={handleSetContent}
-          />
+          <DiaryEntryForm diary={diaryEntry} handleSetDiary={handleSetDiary} />
         </ScrollView>
       ) : (
         <View>

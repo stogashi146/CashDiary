@@ -16,6 +16,7 @@ import { useCalcAmountSummary } from "../hooks/useCalcAmountSummary";
 import { BalanceList } from "../components/BalanceList";
 import { formatDateStringWithWeekday } from "../utils/DateFormat";
 import { AntDesign } from "@expo/vector-icons";
+import { useFetchDiaryBalance } from "../hooks/useFetchDiaryBalance";
 
 type RouteParams = {
   diaryId: number;
@@ -40,22 +41,31 @@ export const DiaryDetailScreen: React.FC = () => {
     directionType: "zero",
   });
   const { calculatedAmountSummary } = useCalcAmountSummary(balances);
-
+  const { fetchDiaryBalanceDetail, fetchedDiary, fetchedBalances } =
+    useFetchDiaryBalance();
   const navigation = useNavigation();
+
   useEffect(() => {
     if (!diary.date) {
       return;
     }
     navigation.setOptions({
       headerTitle: formatDateStringWithWeekday(diary.date),
+      // 編集画面リンクボタン
       headerRight: () => (
         <AntDesign
           name="edit"
           size={24}
           color="black"
           style={{ paddingRight: 15, paddingTop: 5 }}
+          onPress={() => {
+            navigation.navigate("DiaryEdit", {
+              diaryId: diaryId,
+            });
+          }}
         />
       ),
+      // リストへ戻るボタン
       headerLeft: () => (
         <TouchableOpacity
           style={{ flexDirection: "row", alignItems: "center" }}
@@ -74,53 +84,17 @@ export const DiaryDetailScreen: React.FC = () => {
   }, [diary.date]);
 
   useEffect(() => {
-    if (!diaryId) {
-      return;
-    }
-
-    db.transaction((tx) => {
-      // DiaryテーブルからdiaryIdに一致するレコードを取得するクエリ
-      const query = `
-        SELECT * FROM diary
-        WHERE id = ${diaryId}
-        LIMIT 1
-      `;
-      tx.executeSql(query, [], (_, { rows: { _array } }) => {
-        console.log(_array);
-
-        setDiary(_array[0]); // Diaryテーブルの最初のレコードをセット
-      });
-
-      // CashBalanceテーブルからdiaryIdに一致するレコードを取得するクエリ
-      const query2 = `
-        SELECT * FROM cash_balance
-        WHERE diary_id = ${diaryId}
-      `;
-      tx.executeSql(query2, [], (_, { rows: { _array } }) => {
-        const fetchBalances = _array;
-
-        fetchBalances.map((balance) => {
-          renameKey(balance, "income_expense_type", "incomeExpenseType");
-        });
-
-        setBalances(_array);
-      });
-    });
+    fetchDiaryBalanceDetail(diaryId);
   }, []);
+
+  useEffect(() => {
+    fetchedDiary && setDiary(fetchedDiary);
+    fetchedBalances && setBalances(fetchedBalances);
+  }, [fetchedDiary, fetchedBalances]);
 
   useEffect(() => {
     setAmountSummary(calculatedAmountSummary);
   }, [calculatedAmountSummary]);
-
-  const renameKey = (object: any, oldKey: string, newKey: string) => {
-    // オブジェクトに古いキーが存在するかを確認
-    if (Object.prototype.hasOwnProperty.call(object, oldKey)) {
-      // 新しいキーに古いキーの値を代入
-      object[newKey] = object[oldKey];
-      // 古いキーを削除
-      delete object[oldKey];
-    }
-  };
 
   return (
     <View style={styles.container}>
