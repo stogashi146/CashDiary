@@ -18,10 +18,6 @@ export const DiaryList: React.FC<DiaryListProps> = (props) => {
 
   const { diaryBalances } = props;
 
-  const onPress = () => {
-    navigation.navigate("DiaryDetail");
-  };
-
   return (
     <SafeAreaView
       style={styles.diaryListContainer}
@@ -31,7 +27,11 @@ export const DiaryList: React.FC<DiaryListProps> = (props) => {
         {diaryBalances.map((diaryBalance, index) => {
           return (
             <TouchableOpacity
-              onPress={() => onPress()}
+              onPress={() => {
+                navigation.navigate("DiaryDetail", {
+                  diaryId: diaryBalance.id,
+                });
+              }}
               style={styles.diaryListItem}
               activeOpacity={1}
               key={index}

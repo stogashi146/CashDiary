@@ -1,17 +1,21 @@
 import { StyleSheet, Text, View } from "react-native";
 
-export const DiaryEntryDetail = () => {
+interface DiaryEntryDetailProps {
+  diary: DiaryData;
+}
+
+export const DiaryEntryDetail: React.FC<DiaryEntryDetailProps> = (props) => {
+  const { diary } = props;
+
+  // console.log(diary);
+
   return (
     <View style={styles.diaryContainer}>
       <View style={styles.diaryTitleContainer}>
-        <Text style={styles.diaryTitleText}>映画を見に行った</Text>
+        <Text style={styles.diaryTitleText}>{diary.title}</Text>
       </View>
       <View style={styles.diaryContentContainer}>
-        <Text style={styles.diaryContentText}>
-          誰々と映画を見に行った。 Winnyを見た。
-          面白かった誰々と映画を見に行った。 Winnyを見た。
-          面白かった誰々と映画を見に行った。 Winnyを見た。 面白かった
-        </Text>
+        <Text style={styles.diaryContentText}>{diary.content}</Text>
       </View>
     </View>
   );

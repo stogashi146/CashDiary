@@ -129,7 +129,7 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
                     onChangeText={(text) => {
                       // 数字のみ許容
                       if (/^\d+$/.test(text)) {
-                        text != "0" && setBalanceAmount(Number(text));
+                        setBalanceAmount(Number(text));
                       }
                     }}
                     value={balanceAmount.toString()}

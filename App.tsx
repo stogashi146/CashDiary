@@ -1,4 +1,4 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import {
   CardStyleInterpolators,
   createStackNavigator,
@@ -10,18 +10,24 @@ import { DiaryEditScreen } from "./src/screens/DiaryEditScreen";
 import { useInitDatabase } from "./src/hooks/useInitDatabase";
 // import { useFetchDiary } from "./src/hooks/useFetchDiary";
 import { useEffect } from "react";
-import { deleteAllDiary, deleteAllTable } from "./src/utils/DatabaseUtils";
+import {
+  deleteAllDiaryAndBalance,
+  deleteAllTable,
+} from "./src/utils/DatabaseUtils";
+import { TouchableOpacity } from "react-native";
+import { AntDesign } from "@expo/vector-icons";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   const { createdSuccess, error } = useInitDatabase();
+  // const navigation = useNavigation();
 
   if (error) {
     console.log("Error: " + error);
   }
   useEffect(() => {
-    // deleteAllDiary();
+    // deleteAllDiaryAndBalance();
     // deleteAllTable();
   }, []);
 

@@ -57,20 +57,16 @@ export const fetchAllDiaryRecord = () => {
 };
 
 // diaryテーブルの全てのデータを削除する
-export const deleteAllDiary = () => {
+export const deleteAllDiaryAndBalance = () => {
   db.transaction((tx) => {
-    tx.executeSql(
-      "delete from diary",
-      [],
-      () => {
-        console.log("delete success");
-        return true;
-      },
-      (tx, error) => {
-        console.log("delete error", error);
-        return false;
-      }
-    );
+    tx.executeSql("delete from diary", [], () => {
+      console.log("diary delete success");
+      return true;
+    });
+    tx.executeSql("delete from cash_balance", [], () => {
+      console.log("cash_balance delete success");
+      return true;
+    });
   });
 };
 

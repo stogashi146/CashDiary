@@ -1,23 +1,126 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import * as SQLite from "expo-sqlite";
+import { DB_NAME } from "../../config/database";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
 import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
-import { BalanceTotal } from "../components/BalanceSummary";
+import { BalanceSummary } from "../components/BalanceSummary";
 import { SortPicker } from "../components/SortPicker";
-import { DiaryBalanceList } from "../components/DiaryList";
+// import { DiaryBalanceList } from "../components/DiaryList";
 import { DiaryEntryDetail } from "../components/DiaryEntryDetail";
 import { AddBalance } from "../components/AddBalance";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
+import { useCalcAmountSummary } from "../hooks/useCalcAmountSummary";
+import { BalanceList } from "../components/BalanceList";
+import { formatDateStringWithWeekday } from "../utils/DateFormat";
+import { AntDesign } from "@expo/vector-icons";
+
+type RouteParams = {
+  diaryId: number;
+};
 
 export const DiaryDetailScreen: React.FC = () => {
+  const db = SQLite.openDatabase(DB_NAME);
+  const route = useRoute();
+  const { diaryId } = route.params as RouteParams;
   // タブ切り替え 0:日記 1:家計簿
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [diary, setDiary] = useState<DiaryData>({
+    date: "",
+    title: "",
+    content: "",
+  });
+  const [balances, setBalances] = useState<CashBalanceData[]>([]);
+  const [amountSummary, setAmountSummary] = useState<AmountSummaryData>({
+    expense: 0,
+    income: 0,
+    total: 0,
+    directionType: "zero",
+  });
+  const { calculatedAmountSummary } = useCalcAmountSummary(balances);
+
   const navigation = useNavigation();
   useEffect(() => {
-    navigation.setOptions({ headerTitle: "2022/12/12" });
+    if (!diary.date) {
+      return;
+    }
+    navigation.setOptions({
+      headerTitle: formatDateStringWithWeekday(diary.date),
+      headerRight: () => (
+        <AntDesign
+          name="edit"
+          size={24}
+          color="black"
+          style={{ paddingRight: 15, paddingTop: 5 }}
+        />
+      ),
+      headerLeft: () => (
+        <TouchableOpacity
+          style={{ flexDirection: "row", alignItems: "center" }}
+          onPress={() => navigation.navigate("DiaryList")}
+        >
+          <AntDesign
+            name="left"
+            size={22}
+            color="black"
+            style={{ paddingLeft: 15 }}
+          />
+          <Text style={{ marginLeft: 2, fontSize: 16 }}>Back</Text>
+        </TouchableOpacity>
+      ),
+    });
+  }, [diary.date]);
+
+  useEffect(() => {
+    if (!diaryId) {
+      return;
+    }
+
+    db.transaction((tx) => {
+      // DiaryテーブルからdiaryIdに一致するレコードを取得するクエリ
+      const query = `
+        SELECT * FROM diary
+        WHERE id = ${diaryId}
+        LIMIT 1
+      `;
+      tx.executeSql(query, [], (_, { rows: { _array } }) => {
+        console.log(_array);
+
+        setDiary(_array[0]); // Diaryテーブルの最初のレコードをセット
+      });
+
+      // CashBalanceテーブルからdiaryIdに一致するレコードを取得するクエリ
+      const query2 = `
+        SELECT * FROM cash_balance
+        WHERE diary_id = ${diaryId}
+      `;
+      tx.executeSql(query2, [], (_, { rows: { _array } }) => {
+        const fetchBalances = _array;
+
+        fetchBalances.map((balance) => {
+          renameKey(balance, "income_expense_type", "incomeExpenseType");
+        });
+
+        setBalances(_array);
+      });
+    });
   }, []);
+
+  useEffect(() => {
+    setAmountSummary(calculatedAmountSummary);
+  }, [calculatedAmountSummary]);
+
+  const renameKey = (object: any, oldKey: string, newKey: string) => {
+    // オブジェクトに古いキーが存在するかを確認
+    if (Object.prototype.hasOwnProperty.call(object, oldKey)) {
+      // 新しいキーに古いキーの値を代入
+      object[newKey] = object[oldKey];
+      // 古いキーを削除
+      delete object[oldKey];
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -33,15 +136,14 @@ export const DiaryDetailScreen: React.FC = () => {
       </View>
       {selectedIndex == 0 ? (
         <View>
-          <DiaryEntryDetail />
+          <DiaryEntryDetail diary={diary} />
         </View>
       ) : (
         <View>
-          <IncomeExpenseTotal />
-          <BalanceTotal />
+          <BalanceSummary amountSummary={amountSummary} />
           <SortPicker />
-          <DiaryBalanceList />
-          <AddBalance />
+          <BalanceList balances={balances} />
+          {/* <AddBalance /> */}
         </View>
       )}
     </View>

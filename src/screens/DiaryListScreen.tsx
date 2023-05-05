@@ -50,20 +50,22 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
   }, []);
 
   useEffect(() => {
-    console.log("SELECT");
-    console.log(formatDateToYYYYMMIso(currentMonth));
+    fetchDiaryBalances();
+  }, [currentMonth]);
 
+  const fetchDiaryBalances = () => {
     db.transaction((tx) => {
       tx.executeSql(
         `SELECT
-          d.id,
-          d.date,
-          d.title AS title,
-          SUM(CASE WHEN c.balance_type = 'income' THEN c.amount ELSE -c.amount END) AS total
-        FROM diary AS d
-        LEFT JOIN cash_balance AS c ON d.id = c.diary_id
-        WHERE d.date LIKE '${formatDateToYYYYMMIso(currentMonth)}%'
-        GROUP BY d.id`,
+        d.id,
+        d.date,
+        d.title AS title,
+        SUM(CASE WHEN c.income_expense_type
+         = 'income' THEN c.amount ELSE -c.amount END) AS total
+      FROM diary AS d
+      LEFT JOIN cash_balance AS c ON d.id = c.diary_id
+      WHERE d.date LIKE '${formatDateToYYYYMMIso(currentMonth)}%'
+      GROUP BY d.id`,
         [],
         (_, { rows }) => {
           const totals: string[] = [];
@@ -82,8 +84,21 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
           return false;
         }
       );
+      tx.executeSql(
+        `SELECT
+        *
+      FROM cash_balance`,
+        [],
+        (_, { rows }) => {
+          console.log(rows);
+        },
+        (_, error) => {
+          console.log("error", error);
+          return false;
+        }
+      );
     });
-  }, [currentMonth]);
+  };
 
   const onPressAddIcon = () => {
     navigation.navigate("DiaryCreate");

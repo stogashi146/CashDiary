@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
   View,
 } from "react-native";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
@@ -50,8 +51,8 @@ export const DiaryCreateScreen: React.FC = () => {
   });
   const [balances, setBalances] = useState<CashBalanceData[]>([]);
   const { calculatedAmountSummary } = useCalcAmountSummary(balances);
-
   const navigation = useNavigation();
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: formatDateStringWithWeekday(diaryEntry.date),
@@ -65,27 +66,28 @@ export const DiaryCreateScreen: React.FC = () => {
         />
       ),
     });
-  }, [diaryEntry]);
+  }, [diaryEntry, balances]);
 
   useEffect(() => {
     setAmountSummary(calculatedAmountSummary);
   }, [calculatedAmountSummary]);
 
-  const onPressSaveIcon = async () => {
+  const onPressSaveIcon = () => {
+    var diaryId: number | null = null;
     db.transaction(
       (tx) => {
         tx.executeSql(
           "INSERT INTO diary (date, title, content) VALUES (?, ?, ?)",
           [diaryEntry.date, diaryEntry.title, diaryEntry.content],
           (_, result) => {
-            const diaryId = result.insertId;
+            diaryId = result.insertId!;
             if (!diaryId) {
               return tx.executeSql("ROLLBACK");
             }
-
-            balances.forEach((balance) => {
+            console.log(balances);
+            balances.map((balance) => {
               tx.executeSql(
-                "INSERT INTO cash_balance (diary_id, title, balance_type, amount, cash_balance_category_id) VALUES (?, ?, ?, ?, ?)",
+                "INSERT INTO cash_balance (diary_id, title, income_expense_type, amount, cash_balance_category_id) VALUES (?, ?, ?, ?, ?)",
                 [
                   diaryId,
                   balance.title,
@@ -103,8 +105,20 @@ export const DiaryCreateScreen: React.FC = () => {
         Alert.alert("日記・家計簿を保存に失敗しました");
       },
       () => {
-        Alert.alert("日記・家計簿を保存に成功しました");
-        navigation.navigate("DiaryList");
+        Alert.alert(
+          "日記・家計簿を保存に成功しました",
+          "詳細画面に遷移します",
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                navigation.navigate("DiaryDetail", {
+                  diaryId: diaryId,
+                });
+              },
+            },
+          ]
+        );
       }
     );
   };
@@ -139,7 +153,6 @@ export const DiaryCreateScreen: React.FC = () => {
       </View>
     );
   };
-  console.log(amountSummary);
 
   return (
     <KeyboardAvoidingView

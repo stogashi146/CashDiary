@@ -17,7 +17,7 @@
 | diary_id                 | INTEGER                     | 日記ID             |
 | title                    | TEXT                        | タイトル             |
 | cash_balance_category_id | INTEGER                     | カテゴリID         |
-| balance_type             | TEXT                        | 収支タイプ           |
+| income_expense_type      | TEXT                        | 収支タイプ           |
 | amount                   | INTEGER                     | 金額                 |
 
 ### cash_balance_category　収支カテゴリー

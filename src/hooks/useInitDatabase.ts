@@ -31,7 +31,7 @@ export const useInitDatabase = (): UseInitDatabaseType => {
               diary_id INTEGER NOT NULL,
               title TEXT DEFAULT '',
               cash_balance_category_id INTEGER NOT NULL,
-              balance_type TEXT NOT NULL,
+              income_expense_type TEXT NOT NULL,
               amount INTEGER NOT NULL DEFAULT 0,
               FOREIGN KEY (diary_id) REFERENCES diary(id),
               FOREIGN KEY (cash_balance_category_id) REFERENCES cash_balance_category(id)
