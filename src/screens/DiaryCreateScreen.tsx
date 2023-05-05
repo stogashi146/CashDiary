@@ -159,30 +159,23 @@ export const DiaryCreateScreen: React.FC = () => {
       style={styles.container}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
-      <SafeAreaView>
-        {selectedIndex == TabIndex.DIARY ? (
-          <ScrollView>
-            {renderTabPanel()}
-            <DiaryEntryForm
-              handleSetDate={handleSetDate}
-              handleSetTitle={handleSetTitle}
-              handleSetContent={handleSetContent}
-            />
-          </ScrollView>
-        ) : (
-          <View>
-            {renderTabPanel()}
-            {/* <IncomeExpenseTotal
-              income={amountSummary.income}
-              expense={amountSummary.expense}
-            /> */}
-            <BalanceSummary amountSummary={amountSummary} />
-            <GrayBar style={{ justifyContent: "center" }}></GrayBar>
-            <BalanceList balances={balances} />
-            <AddBalance handleCreateBalance={handleCreateBalance} />
-          </View>
-        )}
-      </SafeAreaView>
+      {renderTabPanel()}
+      {selectedIndex == TabIndex.DIARY ? (
+        <ScrollView>
+          <DiaryEntryForm
+            handleSetDate={handleSetDate}
+            handleSetTitle={handleSetTitle}
+            handleSetContent={handleSetContent}
+          />
+        </ScrollView>
+      ) : (
+        <View>
+          <BalanceSummary amountSummary={amountSummary} />
+          <GrayBar style={{ justifyContent: "center" }}></GrayBar>
+          <BalanceList balances={balances} />
+          <AddBalance handleCreateBalance={handleCreateBalance} />
+        </View>
+      )}
     </KeyboardAvoidingView>
   );
 };
@@ -197,6 +190,7 @@ const styles = StyleSheet.create({
   },
   tabControl: {
     width: "80%",
+    marginTop: 10,
     marginBottom: 10,
   },
 });
