@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -14,9 +14,9 @@ interface DiaryListProps {
 }
 
 export const DiaryList: React.FC<DiaryListProps> = (props) => {
-  const navigation = useNavigation();
-
   const { diaryBalances } = props;
+
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView

@@ -1,5 +1,4 @@
 import {
-  Button,
   StyleSheet,
   Text,
   TextInput,
@@ -21,9 +20,6 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 interface DiaryEntryFormProps {
   diary: DiaryData;
   handleSetDiary: (diary: DiaryData) => void;
-  // handleSetDate?: (date: Date) => void;
-  // handleSetTitle?: (title: string) => void;
-  // handleSetContent?: (content: string) => void;
 }
 
 export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
@@ -81,8 +77,6 @@ export const DiaryEntryForm: React.FC<DiaryEntryFormProps> = (props) => {
   };
 
   const changeData = (data: DiaryData) => {
-    console.log(data);
-
     setChangedDiary(data);
     handleSetDiary(data);
   };

@@ -8,7 +8,7 @@ export const formatDateWithWeekday = (date: Date): string => {
 // 文字列YYYY-MM-DDを受け取って、日付と曜日を返す関数
 export const formatDateStringWithWeekday = (date: string): string => {
   const dateObj = new Date(date);
-  return format(dateObj, "yyyy年MM月dd日(E)", { locale: ja });
+  return format(dateObj, "yyyy/MM/dd(E)", { locale: ja });
 };
 
 export const formatDateToYYYYMM = (date: Date): string => {

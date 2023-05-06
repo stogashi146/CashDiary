@@ -7,6 +7,7 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
+  Text,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -55,7 +56,7 @@ export const DiaryCreateScreen: React.FC = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: formatDateStringWithWeekday(diaryEntry.date),
+      headerTitle: `${formatDateStringWithWeekday(diaryEntry.date)} - 新規作成`,
       headerRight: () => (
         <AntDesign
           name="save"
@@ -84,7 +85,6 @@ export const DiaryCreateScreen: React.FC = () => {
             if (!diaryId) {
               return tx.executeSql("ROLLBACK");
             }
-            console.log(balances);
             balances.map((balance) => {
               tx.executeSql(
                 "INSERT INTO cash_balance (diary_id, title, income_expense_type, amount, cash_balance_category_id) VALUES (?, ?, ?, ?, ?)",
@@ -190,10 +190,10 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     alignItems: "center",
+    marginTop: 10,
   },
   tabControl: {
     width: "80%",
-    marginTop: 10,
     marginBottom: 10,
   },
 });

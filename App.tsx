@@ -46,7 +46,13 @@ export default function App() {
           cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
         }}
       >
-        <Stack.Screen name="DiaryList" component={DiaryListScreen} />
+        <Stack.Screen
+          name="DiaryList"
+          component={DiaryListScreen}
+          options={{
+            headerLeft: () => null, // 戻るボタンを非表示にする
+          }}
+        />
         <Stack.Screen name="DiaryCreate" component={DiaryCreateScreen} />
         <Stack.Screen name="DiaryDetail" component={DiaryDetailScreen} />
         <Stack.Screen name="DiaryEdit" component={DiaryEditScreen} />

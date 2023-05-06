@@ -4,14 +4,10 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import * as SQLite from "expo-sqlite";
 import { DB_NAME } from "../../config/database";
 import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceSummary } from "../components/BalanceSummary";
 import { SortPicker } from "../components/SortPicker";
-// import { DiaryBalanceList } from "../components/DiaryList";
 import { DiaryEntryDetail } from "../components/DiaryEntryDetail";
-import { AddBalance } from "../components/AddBalance";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { useCalcAmountSummary } from "../hooks/useCalcAmountSummary";
 import { BalanceList } from "../components/BalanceList";
 import { formatDateStringWithWeekday } from "../utils/DateFormat";
@@ -50,7 +46,7 @@ export const DiaryDetailScreen: React.FC = () => {
       return;
     }
     navigation.setOptions({
-      headerTitle: formatDateStringWithWeekday(diary.date),
+      headerTitle: `${formatDateStringWithWeekday(diary.date)} - 詳細`,
       // 編集画面リンクボタン
       headerRight: () => (
         <AntDesign
@@ -69,7 +65,9 @@ export const DiaryDetailScreen: React.FC = () => {
       headerLeft: () => (
         <TouchableOpacity
           style={{ flexDirection: "row", alignItems: "center" }}
-          onPress={() => navigation.navigate("DiaryList")}
+          onPress={() => {
+            navigation.navigate("DiaryList");
+          }}
         >
           <AntDesign
             name="left"
@@ -131,10 +129,10 @@ const styles = StyleSheet.create({
   },
   tabContainer: {
     alignItems: "center",
+    marginVertical: 10,
   },
   tabControl: {
     width: "80%",
-    marginVertical: 10,
   },
   addBalanceContainer: {
     alignItems: "center",
