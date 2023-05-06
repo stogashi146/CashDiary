@@ -33,14 +33,14 @@ export const MonthSelect: React.FC<MonthSelectmProps> = (props) => {
         style={styles.monthArrow}
         onPress={() => onPressArrow("prev")}
       >
-        <AntDesign name="left" size={24} color="black" />
+        <AntDesign name="left" size={22} color="black" />
       </TouchableOpacity>
       <Text style={styles.monthTitle}>{formatDateToYYYYMM(currentMonth)}</Text>
       <TouchableOpacity
         style={styles.monthArrow}
         onPress={() => onPressArrow("next")}
       >
-        <AntDesign name="right" size={24} color="black" />
+        <AntDesign name="right" size={22} color="black" />
       </TouchableOpacity>
     </View>
   );
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     padding: 8,
   },
   monthTitle: {
-    fontSize: 20,
+    fontSize: 19,
     fontWeight: "400",
     lineHeight: 32,
     color: "black",

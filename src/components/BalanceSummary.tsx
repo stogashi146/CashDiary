@@ -31,10 +31,10 @@ export const BalanceSummary: React.FC<balanceSummaryProps> = (props) => {
         <Text style={styles.balanceLabel}>収支</Text>
         <Text style={styles.balanceAmount}>
           {amountSummary.directionType === "plus" && (
-            <AntDesign name="plus" size={22} color={"black"} />
+            <AntDesign name="plus" size={20} color={"black"} />
           )}
           {amountSummary.directionType === "minus" && (
-            <AntDesign name="minus" size={22} color={"black"} />
+            <AntDesign name="minus" size={20} color={"black"} />
           )}
           ￥{Math.abs(amountSummary.total)}
         </Text>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
   },
   incomeInnerAmount: {
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "400",
     color: "#0094FF",
   },
   incomeIcon: {
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
   },
   expenseInnerAmount: {
     fontSize: 18,
-    fontWeight: "500",
+    fontWeight: "400",
     color: "#FF0000",
   },
   expenseIcon: {
