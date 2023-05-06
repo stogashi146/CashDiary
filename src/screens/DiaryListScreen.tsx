@@ -2,17 +2,14 @@ import * as SQLite from "expo-sqlite";
 import { StyleSheet, Text, View } from "react-native";
 import { DiaryList } from "../components/DiaryList";
 import { MonthSelect } from "../components/MonthSelect";
-import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceSummary } from "../components/BalanceSummary";
 import { SortPicker } from "../components/SortPicker";
 import { useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { DB_NAME } from "../../config/database";
-import {
-  formatDateToYYYYMMDD,
-  formatDateToYYYYMMIso,
-} from "../utils/DateFormat";
+import { formatDateToYYYYMMIso } from "../utils/DateFormat";
+import { SORT_TYPE, SortType } from "../constants/SortTypeContants";
 
 interface DiaryListScreenProps {
   navigation: any;
@@ -29,10 +26,15 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
     total: 0,
     directionType: "zero",
   });
+  const [sortType, setSortType] = useState<SortType>(SORT_TYPE.newest);
 
   const handleSetMonth = (date: Date) => {
     setCurrentMonth(date);
     console.log(date);
+  };
+
+  const handleSetSortType = (type: SortType) => {
+    setSortType(type);
   };
 
   useEffect(() => {
@@ -65,7 +67,9 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
       FROM diary AS d
       LEFT JOIN cash_balance AS c ON d.id = c.diary_id
       WHERE d.date LIKE '${formatDateToYYYYMMIso(currentMonth)}%'
-      GROUP BY d.id`,
+      GROUP BY d.id
+      ORDER BY d.date DESC
+      `,
         [],
         (_, { rows }) => {
           const totals: string[] = [];
@@ -90,7 +94,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
       FROM cash_balance`,
         [],
         (_, { rows }) => {
-          console.log(rows);
+          // console.log(rows);
         },
         (_, error) => {
           console.log("error", error);
@@ -154,8 +158,8 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
     <View style={styles.container}>
       <MonthSelect handleSetMonth={handleSetMonth} />
       <BalanceSummary amountSummary={amountSummary} />
-      <SortPicker />
-      <DiaryList diaryBalances={diaryBalances} />
+      <SortPicker handleSetSortType={handleSetSortType} />
+      <DiaryList diaryBalances={diaryBalances} sortType={sortType} />
     </View>
   );
 };

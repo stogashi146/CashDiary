@@ -19,9 +19,77 @@ export const BalanceList: React.FC<BalanceListProps> = (props) => {
   const navigation = useNavigation();
   const route = useRoute();
   const { balances, handleDeleteBalance } = props;
+
+  // const [sortedBalances, setSortedBalances] = useState<CashBalanceData[]>([]);
   const readOnly = route.name === "DiaryDetail";
 
-  useEffect(() => {}, [balances]);
+  // useEffect(() => {
+  //   setSortedBalances(balances);
+  // }, [balances]);
+
+  // useEffect(() => {
+  //   const tmp_balances = balances.slice();
+  //   if (sortType === "newest") {
+  //     setSortedBalances(
+  //       tmp_balances.sort((a, b) => {
+  //         // createdAtがない場合0を返す
+  //         if (!a.createdAt || !b.createdAt) {
+  //           return 0;
+  //         }
+
+  //         if (a.createdAt > b.createdAt) {
+  //           return -1;
+  //         } else {
+  //           return 1;
+  //         }
+  //       })
+  //     );
+  //   } else if (sortType === "oldest") {
+  //     setSortedBalances(
+  //       tmp_balances.sort((a, b) => {
+  //         if (!a.createdAt || !b.createdAt) {
+  //           return 0;
+  //         }
+
+  //         if (a.createdAt < b.createdAt) {
+  //           return -1;
+  //         } else {
+  //           return 1;
+  //         }
+  //       })
+  //     );
+  //   } else if (sortType === "highest") {
+  //     setSortedBalances(
+  //       tmp_balances.sort((a, b) => {
+  //         if (calcAmount(a) > calcAmount(b)) {
+  //           return -1;
+  //         } else {
+  //           return 1;
+  //         }
+  //       })
+  //     );
+  //   } else if (sortType === "lowest") {
+  //     setSortedBalances(
+  //       tmp_balances.sort((a, b) => {
+  //         if (calcAmount(a) < calcAmount(b)) {
+  //           return -1;
+  //         } else {
+  //           return 1;
+  //         }
+  //       })
+  //     );
+  //   }
+  //   console.log(sortedBalances);
+  // }, [sortType]);
+
+  // // expenseの場合はマイナスにする
+  // const calcAmount = (balance: CashBalanceData) => {
+  //   if (balance.incomeExpenseType === "expense") {
+  //     return -balance.amount;
+  //   } else {
+  //     return balance.amount;
+  //   }
+  // };
 
   return (
     <SafeAreaView

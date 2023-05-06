@@ -13,6 +13,7 @@ import { BalanceList } from "../components/BalanceList";
 import { formatDateStringWithWeekday } from "../utils/DateFormat";
 import { AntDesign } from "@expo/vector-icons";
 import { useFetchDiaryBalance } from "../hooks/useFetchDiaryBalance";
+import { GrayBar } from "../components/GrayBar";
 
 type RouteParams = {
   diaryId: number;
@@ -113,9 +114,8 @@ export const DiaryDetailScreen: React.FC = () => {
       ) : (
         <View>
           <BalanceSummary amountSummary={amountSummary} />
-          <SortPicker />
+          <GrayBar style={{ height: 25 }} />
           <BalanceList balances={balances} />
-          {/* <AddBalance /> */}
         </View>
       )}
     </View>

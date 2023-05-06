@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   ScrollView,
   StyleSheet,
@@ -8,15 +8,65 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { SortType } from "../constants/SortTypeContants";
 
 interface DiaryListProps {
   diaryBalances: DiaryBalanceData[];
+  sortType: SortType;
 }
 
 export const DiaryList: React.FC<DiaryListProps> = (props) => {
-  const { diaryBalances } = props;
+  const { diaryBalances, sortType } = props;
+
+  const [sortedBalances, setSortedBalances] =
+    useState<DiaryBalanceData[]>(diaryBalances);
 
   const navigation = useNavigation();
+
+  useEffect(() => {
+    const balances = diaryBalances.slice();
+    if (sortType === "newest") {
+      setSortedBalances(
+        balances.sort((a, b) => {
+          if (a.date > b.date) {
+            return -1;
+          } else {
+            return 1;
+          }
+        })
+      );
+    } else if (sortType === "oldest") {
+      setSortedBalances(
+        balances.sort((a, b) => {
+          if (a.date < b.date) {
+            return -1;
+          } else {
+            return 1;
+          }
+        })
+      );
+    } else if (sortType === "highest") {
+      setSortedBalances(
+        balances.sort((a, b) => {
+          if (a.total > b.total) {
+            return -1;
+          } else {
+            return 1;
+          }
+        })
+      );
+    } else if (sortType === "lowest") {
+      setSortedBalances(
+        balances.sort((a, b) => {
+          if (a.total < b.total) {
+            return -1;
+          } else {
+            return 1;
+          }
+        })
+      );
+    }
+  }, [diaryBalances, sortType]);
 
   return (
     <SafeAreaView
@@ -24,7 +74,7 @@ export const DiaryList: React.FC<DiaryListProps> = (props) => {
       edges={["right", "left", "bottom"]}
     >
       <ScrollView>
-        {diaryBalances.map((diaryBalance, index) => {
+        {sortedBalances.map((diaryBalance, index) => {
           return (
             <TouchableOpacity
               onPress={() => {
