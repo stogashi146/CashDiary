@@ -1,3 +1,4 @@
+import React from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import {
   CardStyleInterpolators,
@@ -47,7 +48,7 @@ export default function App() {
         }}
       >
         <Stack.Screen
-          name="DiaryList"
+          name="DiaryList"Ú
           component={DiaryListScreen}
           options={{
             headerLeft: () => null, // 戻るボタンを非表示にする
