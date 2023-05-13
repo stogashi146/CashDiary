@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useCallback } from "react";
 import * as SQLite from "expo-sqlite";
 import { StyleSheet, Text, View } from "react-native";
 import { DiaryList } from "../components/DiaryList";
 import { MonthSelect } from "../components/MonthSelect";
 import { BalanceSummary } from "../components/BalanceSummary";
 import { SortPicker } from "../components/SortPicker";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { DB_NAME } from "../../config/database";
 import { formatDateToYYYYMMIso } from "../utils/DateFormat";
 import { SORT_TYPE, SortType } from "../constants/SortTypeContants";
+import { Alert } from "react-native";
 
 interface DiaryListScreenProps {
   navigation: any;
@@ -51,6 +52,12 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
       ),
     });
   }, []);
+
+  const onFocus = useCallback(() => {
+    fetchDiaryBalances();
+  }, []);
+  // 詳細画面から戻った際に再度fetchする
+  useFocusEffect(onFocus);
 
   useEffect(() => {
     fetchDiaryBalances();
@@ -103,6 +110,67 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
         }
       );
     });
+  };
+
+  const onPressDelete = (id: number) => {
+    if (!id) return;
+
+    Alert.alert(
+      "日記・家計簿を削除しますか？",
+      "日記とそれに紐づく家計簿も削除します",
+      [
+        {
+          text: "キャンセル",
+          onPress: () => {
+            return;
+          },
+          style: "cancel",
+        },
+        {
+          text: "削除",
+          onPress: () => {
+            handleDeleteDiary(id);
+          },
+        },
+      ],
+      { cancelable: true }
+    );
+  };
+
+  const handleDeleteDiary = (id: number) => {
+    db.transaction(
+      (tx) => {
+        tx.executeSql(
+          "delete from diary where id = ?",
+          [id],
+          () => {
+            console.log("diary delete success");
+          },
+          (_, error) => {
+            console.log(error.message);
+            return false;
+          }
+        );
+        tx.executeSql(
+          "delete from cash_balance where diary_id = ?",
+          [id],
+          () => {
+            console.log("cash_balance delete success");
+          },
+          (_, error) => {
+            console.log(error.message);
+            return false;
+          }
+        );
+      },
+      () => {
+        console.log("delete fail");
+      },
+      () => {
+        console.log("delete success");
+        fetchDiaryBalances();
+      }
+    );
   };
 
   const onPressAddIcon = () => {
@@ -160,7 +228,11 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
       <MonthSelect handleSetMonth={handleSetMonth} />
       <BalanceSummary amountSummary={amountSummary} />
       <SortPicker handleSetSortType={handleSetSortType} />
-      <DiaryList diaryBalances={diaryBalances} sortType={sortType} />
+      <DiaryList
+        diaryBalances={diaryBalances}
+        sortType={sortType}
+        onPressDelete={onPressDelete}
+      />
     </View>
   );
 };

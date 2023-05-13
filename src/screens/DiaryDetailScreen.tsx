@@ -112,7 +112,7 @@ export const DiaryDetailScreen: React.FC = () => {
           <DiaryEntryDetail diary={diary} />
         </View>
       ) : (
-        <View>
+        <View style={styles.balanceContainer}>
           <BalanceSummary amountSummary={amountSummary} />
           <GrayBar style={{ height: 25 }} />
           <BalanceList balances={balances} />
@@ -159,5 +159,8 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 50,
     marginTop: 5,
+  },
+  balanceContainer: {
+    flex: 1,
   },
 });

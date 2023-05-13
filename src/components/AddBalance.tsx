@@ -14,7 +14,7 @@ import {
 import { CheckBox } from "@rneui/themed";
 import { Button } from "@rneui/base";
 import { AntDesign } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { SquareButton } from "./SquareButton";
 
 interface AddBalanceProps {
@@ -57,9 +57,9 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
     <View style={[styles.addBalanceContainer]}>
       <View
         style={{
-          position: "relative",
-          bottom: 0,
-          marginTop: 20,
+          // position: "relative",
+          // bottom: -100,
+          // marginTop: 20,
           width: "85%",
           alignSelf: "center",
         }}
@@ -80,81 +80,85 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           style={styles.modalContainer}
         >
-          <SafeAreaView>
-            <View style={styles.modalContent}>
-              <ScrollView>
-                <View style={styles.modalTitleContainer}>
-                  <Text style={styles.modalTitleText}>新規追加</Text>
-                  <View style={styles.modalCloseIconContainer}>
-                    <AntDesign
-                      name="close"
-                      size={26}
-                      color="black"
-                      style={styles.modalCloseIcon}
-                      onPress={() => {
-                        setModalVisible(false);
-                        resetValues();
-                      }}
+          <SafeAreaProvider>
+            <SafeAreaView>
+              <View style={styles.modalContent}>
+                <ScrollView>
+                  <View style={styles.modalTitleContainer}>
+                    <Text style={styles.modalTitleText}>新規追加</Text>
+                    <View style={styles.modalCloseIconContainer}>
+                      <AntDesign
+                        name="close"
+                        size={26}
+                        color="black"
+                        style={styles.modalCloseIcon}
+                        onPress={() => {
+                          setModalVisible(false);
+                          resetValues();
+                        }}
+                      />
+                    </View>
+                  </View>
+                  <View style={styles.addBalanceRow}>
+                    <Text style={styles.addBalanceLabel}>メモ</Text>
+                    <TextInput
+                      style={styles.addBalanceText}
+                      value={title}
+                      onChangeText={(text) => setTitle(text)}
                     />
                   </View>
-                </View>
-                <View style={styles.addBalanceRow}>
-                  <Text style={styles.addBalanceLabel}>メモ</Text>
-                  <TextInput
-                    style={styles.addBalanceText}
-                    value={title}
-                    onChangeText={(text) => setTitle(text)}
-                  />
-                </View>
-                <View style={styles.checkboxBalanceRow}>
-                  <Text>支出</Text>
-                  <CheckBox
-                    checked={checkedBalanceIndex === 0}
-                    onPress={() => setCheckedBalanceIndex(0)}
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    size={18}
-                    style={styles.checkBox}
-                  />
-                  <Text>収入</Text>
-                  <CheckBox
-                    checked={checkedBalanceIndex === 1}
-                    onPress={() => setCheckedBalanceIndex(1)}
-                    checkedIcon="dot-circle-o"
-                    uncheckedIcon="circle-o"
-                    size={18}
-                    style={styles.checkBox}
-                  />
-                </View>
+                  <View style={styles.checkboxBalanceRow}>
+                    <Text>支出</Text>
+                    <CheckBox
+                      checked={checkedBalanceIndex === 0}
+                      onPress={() => setCheckedBalanceIndex(0)}
+                      checkedIcon="dot-circle-o"
+                      uncheckedIcon="circle-o"
+                      size={18}
+                      style={styles.checkBox}
+                    />
+                    <Text>収入</Text>
+                    <CheckBox
+                      checked={checkedBalanceIndex === 1}
+                      onPress={() => setCheckedBalanceIndex(1)}
+                      checkedIcon="dot-circle-o"
+                      uncheckedIcon="circle-o"
+                      size={18}
+                      style={styles.checkBox}
+                    />
+                  </View>
 
-                <View style={styles.addBalanceRow}>
-                  <Text style={styles.addBalanceLabel}>金額</Text>
-                  {/* 文字列を許容しない */}
-                  <TextInput
-                    onChangeText={(text) => {
-                      // 数字のみ許容
-                      if (/^\d+$/.test(text)) {
-                        setBalanceAmount(Number(text));
-                      }
-                    }}
-                    value={balanceAmount.toString()}
-                    style={[
-                      styles.addBalanceText,
-                      styles.amountText,
-                      checkedBalanceIndex === INCOME_EXPENSE_TYPE.EXPENSE
-                        ? styles.expenseColor
-                        : styles.incomeColor,
-                    ]}
-                    keyboardType="numeric"
-                    placeholder="0"
-                  />
-                </View>
-                <View style={styles.addButtonContainer}>
-                  <SquareButton onPress={onPressAddBalance}>決定</SquareButton>
-                </View>
-              </ScrollView>
-            </View>
-          </SafeAreaView>
+                  <View style={styles.addBalanceRow}>
+                    <Text style={styles.addBalanceLabel}>金額</Text>
+                    {/* 文字列を許容しない */}
+                    <TextInput
+                      onChangeText={(text) => {
+                        // 数字のみ許容
+                        if (/^\d+$/.test(text)) {
+                          setBalanceAmount(Number(text));
+                        }
+                      }}
+                      value={balanceAmount.toString()}
+                      style={[
+                        styles.addBalanceText,
+                        styles.amountText,
+                        checkedBalanceIndex === INCOME_EXPENSE_TYPE.EXPENSE
+                          ? styles.expenseColor
+                          : styles.incomeColor,
+                      ]}
+                      keyboardType="numeric"
+                      placeholder="0"
+                    />
+                  </View>
+                  <View style={styles.addButtonContainer}>
+                    <SquareButton onPress={onPressAddBalance}>
+                      決定
+                    </SquareButton>
+                  </View>
+                </ScrollView>
+              </View>
+            </SafeAreaView>
+          </SafeAreaProvider>
         </KeyboardAvoidingView>
       </Modal>
     </View>

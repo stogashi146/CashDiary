@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { AntDesign } from "@expo/vector-icons";
 
 interface BalanceListProps {
@@ -19,126 +19,58 @@ export const BalanceList: React.FC<BalanceListProps> = (props) => {
   const navigation = useNavigation();
   const route = useRoute();
   const { balances, handleDeleteBalance } = props;
-
-  // const [sortedBalances, setSortedBalances] = useState<CashBalanceData[]>([]);
   const readOnly = route.name === "DiaryDetail";
 
-  // useEffect(() => {
-  //   setSortedBalances(balances);
-  // }, [balances]);
-
-  // useEffect(() => {
-  //   const tmp_balances = balances.slice();
-  //   if (sortType === "newest") {
-  //     setSortedBalances(
-  //       tmp_balances.sort((a, b) => {
-  //         // createdAtがない場合0を返す
-  //         if (!a.createdAt || !b.createdAt) {
-  //           return 0;
-  //         }
-
-  //         if (a.createdAt > b.createdAt) {
-  //           return -1;
-  //         } else {
-  //           return 1;
-  //         }
-  //       })
-  //     );
-  //   } else if (sortType === "oldest") {
-  //     setSortedBalances(
-  //       tmp_balances.sort((a, b) => {
-  //         if (!a.createdAt || !b.createdAt) {
-  //           return 0;
-  //         }
-
-  //         if (a.createdAt < b.createdAt) {
-  //           return -1;
-  //         } else {
-  //           return 1;
-  //         }
-  //       })
-  //     );
-  //   } else if (sortType === "highest") {
-  //     setSortedBalances(
-  //       tmp_balances.sort((a, b) => {
-  //         if (calcAmount(a) > calcAmount(b)) {
-  //           return -1;
-  //         } else {
-  //           return 1;
-  //         }
-  //       })
-  //     );
-  //   } else if (sortType === "lowest") {
-  //     setSortedBalances(
-  //       tmp_balances.sort((a, b) => {
-  //         if (calcAmount(a) < calcAmount(b)) {
-  //           return -1;
-  //         } else {
-  //           return 1;
-  //         }
-  //       })
-  //     );
-  //   }
-  //   console.log(sortedBalances);
-  // }, [sortType]);
-
-  // // expenseの場合はマイナスにする
-  // const calcAmount = (balance: CashBalanceData) => {
-  //   if (balance.incomeExpenseType === "expense") {
-  //     return -balance.amount;
-  //   } else {
-  //     return balance.amount;
-  //   }
-  // };
-
   return (
-    <SafeAreaView
-      style={styles.balanceListContainer}
-      edges={["right", "left", "bottom"]}
-    >
-      <ScrollView>
-        {balances.map((balance, index) => {
-          return (
-            <TouchableOpacity
-              style={styles.balanceListItem}
-              activeOpacity={1}
-              key={index}
-            >
-              <Text style={styles.balanceListItemTitle}>{balance.title}</Text>
-              <View style={styles.rightContainer}>
-                {readOnly ? null : (
-                  <TouchableOpacity
-                    onPress={() => {
-                      handleDeleteBalance && handleDeleteBalance(index);
-                    }}
-                  >
-                    <AntDesign
-                      name="close"
-                      size={22}
-                      color="black"
-                      style={styles.deleteIcon}
-                    />
-                  </TouchableOpacity>
-                )}
-                <View style={styles.amountContainer}>
-                  <Text
-                    style={[
-                      balance.incomeExpenseType === "expense"
-                        ? styles.expenseColor
-                        : styles.incomeColor,
-                      styles.balanceListItemAmount,
-                    ]}
-                  >
-                    {balance.incomeExpenseType === "expense" ? "-" : "+"}
-                    {balance.amount}
-                  </Text>
+    <SafeAreaProvider>
+      <SafeAreaView
+        style={styles.balanceListContainer}
+        edges={["right", "left", "bottom"]}
+      >
+        <ScrollView>
+          {balances.map((balance, index) => {
+            return (
+              <TouchableOpacity
+                style={styles.balanceListItem}
+                activeOpacity={1}
+                key={index}
+              >
+                <Text style={styles.balanceListItemTitle}>{balance.title}</Text>
+                <View style={styles.rightContainer}>
+                  {readOnly ? null : (
+                    <TouchableOpacity
+                      onPress={() => {
+                        handleDeleteBalance && handleDeleteBalance(index);
+                      }}
+                    >
+                      <AntDesign
+                        name="close"
+                        size={22}
+                        color="black"
+                        style={styles.deleteIcon}
+                      />
+                    </TouchableOpacity>
+                  )}
+                  <View style={styles.amountContainer}>
+                    <Text
+                      style={[
+                        balance.incomeExpenseType === "expense"
+                          ? styles.expenseColor
+                          : styles.incomeColor,
+                        styles.balanceListItemAmount,
+                      ]}
+                    >
+                      {balance.incomeExpenseType === "expense" ? "-" : "+"}
+                      {balance.amount}
+                    </Text>
+                  </View>
                 </View>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-    </SafeAreaView>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 

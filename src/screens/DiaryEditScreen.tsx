@@ -24,6 +24,11 @@ import { BalanceList } from "../components/BalanceList";
 import { DB_NAME } from "../../config/database";
 import { useCalcAmountSummary } from "../hooks/useCalcAmountSummary";
 import { useFetchDiaryBalance } from "../hooks/useFetchDiaryBalance";
+import {
+  SafeAreaProvider,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 type RouteParams = {
   diaryId: number;
@@ -33,6 +38,7 @@ export const DiaryEditScreen: React.FC<RouteParams> = () => {
   const route = useRoute();
 
   const { diaryId } = route.params as RouteParams;
+  const insets = useSafeAreaInsets();
 
   const [diaryEntry, setDiaryEntry] = useState<DiaryData>({
     date: formatDateToYYYYMMDD(new Date()),
@@ -195,13 +201,26 @@ export const DiaryEditScreen: React.FC<RouteParams> = () => {
         </ScrollView>
       ) : (
         <View>
-          <BalanceSummary amountSummary={amountSummary} />
-          <GrayBar style={{ justifyContent: "center" }}></GrayBar>
-          <BalanceList
-            balances={balances}
-            handleDeleteBalance={handleDeleteBalance}
-          />
-          <AddBalance handleCreateBalance={handleCreateBalance} />
+          <SafeAreaProvider>
+            <SafeAreaView
+              style={{
+                flex: 1,
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
+                <BalanceSummary amountSummary={amountSummary} />
+                <GrayBar style={{ justifyContent: "center" }}></GrayBar>
+                <BalanceList
+                  balances={balances}
+                  handleDeleteBalance={handleDeleteBalance}
+                />
+              </View>
+              <View>
+                <AddBalance handleCreateBalance={handleCreateBalance} />
+              </View>
+            </SafeAreaView>
+          </SafeAreaProvider>
         </View>
       )}
     </KeyboardAvoidingView>

@@ -25,7 +25,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>HOGE</string>
+          <string>CashDiary</string>
         </array>
       </dict>
       <dict>

@@ -16,7 +16,7 @@ import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
 import { BalanceSummary } from "../components/BalanceSummary";
 import { AddBalance } from "../components/AddBalance";
 import { DiaryEntryForm } from "../components/DiaryEntryForm";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import {
@@ -170,13 +170,26 @@ export const DiaryCreateScreen: React.FC = () => {
         </ScrollView>
       ) : (
         <View>
-          <BalanceSummary amountSummary={amountSummary} />
-          <GrayBar style={{ justifyContent: "center" }}></GrayBar>
-          <BalanceList
-            balances={balances}
-            handleDeleteBalance={handleDeleteBalance}
-          />
-          <AddBalance handleCreateBalance={handleCreateBalance} />
+          <SafeAreaProvider>
+            <SafeAreaView
+              style={{
+                flex: 1,
+                justifyContent: "space-between",
+              }}
+            >
+              <View>
+                <BalanceSummary amountSummary={amountSummary} />
+                <GrayBar style={{ justifyContent: "center" }}></GrayBar>
+                <BalanceList
+                  balances={balances}
+                  handleDeleteBalance={handleDeleteBalance}
+                />
+              </View>
+              <View>
+                <AddBalance handleCreateBalance={handleCreateBalance} />
+              </View>
+            </SafeAreaView>
+          </SafeAreaProvider>
         </View>
       )}
     </KeyboardAvoidingView>
@@ -195,5 +208,8 @@ const styles = StyleSheet.create({
   tabControl: {
     width: "80%",
     marginBottom: 10,
+  },
+  balanceContainer: {
+    flex: 1,
   },
 });

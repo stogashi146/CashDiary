@@ -1,5 +1,7 @@
+import * as SQLite from "expo-sqlite";
 import React, { useEffect, useState } from "react";
 import {
+  Alert,
   ScrollView,
   StyleSheet,
   Text,
@@ -7,16 +9,20 @@ import {
   View,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { SortType } from "../constants/SortTypeContants";
+import { AntDesign } from "@expo/vector-icons";
+import { DB_NAME } from "../../config/database";
 
 interface DiaryListProps {
   diaryBalances: DiaryBalanceData[];
   sortType: SortType;
+  onPressDelete: (diaryId: number) => void;
 }
 
 export const DiaryList: React.FC<DiaryListProps> = (props) => {
-  const { diaryBalances, sortType } = props;
+  const db = SQLite.openDatabase(DB_NAME);
+  const { diaryBalances, sortType, onPressDelete } = props;
 
   const [sortedBalances, setSortedBalances] =
     useState<DiaryBalanceData[]>(diaryBalances);
@@ -69,41 +75,57 @@ export const DiaryList: React.FC<DiaryListProps> = (props) => {
   }, [diaryBalances, sortType]);
 
   return (
-    <SafeAreaView
-      style={styles.diaryListContainer}
-      edges={["right", "left", "bottom"]}
-    >
-      <ScrollView>
-        {sortedBalances.map((diaryBalance, index) => {
-          return (
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("DiaryDetail", {
-                  diaryId: diaryBalance.id,
-                });
-              }}
-              style={styles.diaryListItem}
-              activeOpacity={1}
-              key={index}
-            >
-              <View>
-                <Text style={styles.diaryListItemTitle}>
-                  {diaryBalance.title}
-                </Text>
-                <Text style={styles.diaryListItemDate}>
-                  {diaryBalance.date}
-                </Text>
-              </View>
-              <View>
-                <Text style={styles.diaryListItemAmount}>
-                  {diaryBalance.total}
-                </Text>
-              </View>
-            </TouchableOpacity>
-          );
-        })}
-      </ScrollView>
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView
+        style={[styles.diaryListContainer, { marginTop: 5 }]}
+        edges={["right", "left", "bottom"]}
+      >
+        <ScrollView>
+          {sortedBalances.map((diaryBalance, index) => {
+            return (
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("DiaryDetail", {
+                    diaryId: diaryBalance.id,
+                  });
+                }}
+                style={styles.diaryListItem}
+                activeOpacity={1}
+                key={index}
+              >
+                <View>
+                  <Text style={styles.diaryListItemTitle}>
+                    {diaryBalance.title}
+                  </Text>
+                  <Text style={styles.diaryListItemDate}>
+                    {diaryBalance.date}
+                  </Text>
+                </View>
+                <View style={styles.rightContainer}>
+                  <TouchableOpacity
+                    onPress={() => {
+                      onPressDelete(diaryBalance.id!);
+                    }}
+                  >
+                    <AntDesign
+                      name="close"
+                      size={20}
+                      color="black"
+                      style={styles.deleteIcon}
+                    />
+                  </TouchableOpacity>
+                  <View style={styles.amountContainer}>
+                    <Text style={styles.diaryListItemAmount}>
+                      {diaryBalance.total}
+                    </Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            );
+          })}
+        </ScrollView>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
@@ -135,7 +157,21 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     color: "#848484",
   },
+  rightContainer: {
+    flexDirection: "column",
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+  },
   diaryListItemAmount: {
     fontSize: 16,
+    fontWeight: "500",
+    paddingRight: 10,
+  },
+  deleteIcon: {
+    paddingBottom: 15,
+    color: "rgba(0,0,0,0.5)",
+  },
+  amountContainer: {
+    alignSelf: "flex-end",
   },
 });
