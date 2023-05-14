@@ -6,7 +6,7 @@ import {
   TestIds,
 } from "react-native-google-mobile-ads";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-// import { PremiumContext, TrackingContext } from "../../PremiumContext";
+import { admobConfig } from "../utils/Constants";
 
 interface Props {
   size: BannerAdSize;
@@ -15,7 +15,7 @@ interface Props {
 export default function MyAdmob(props: Props) {
   // テスト用のID
   // 実機テスト時に誤ってタップしたりすると、広告の配信停止をされたりするため、テスト時はこちらを設定する
-  const unitId = TestIds.BANNER;
+  const testUnitId = TestIds.BANNER;
 
   // 実際に広告配信する際のID
   // 広告ユニット（バナー）を作成した際に表示されたものを設定する
@@ -29,7 +29,7 @@ export default function MyAdmob(props: Props) {
     <View style={{ paddingBottom: insets.bottom }}>
       <BannerAd
         {...props}
-        unitId={unitId}
+        unitId={admobConfig.bannerId}
         // requestOptions={{ requestNonPersonalizedAdsOnly: !!nonPersonalizedOnly }}
       />
     </View>

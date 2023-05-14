@@ -41,6 +41,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
 
   useEffect(() => {
     navigation.setOptions({
+      headerTitle: "日記一覧",
       headerRight: () => (
         <AntDesign
           name="plus"

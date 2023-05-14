@@ -81,12 +81,6 @@ export default function App() {
         justifyContent: "space-between",
       }}
     >
-      {/* <SafeAreaView
-        style={{
-          flex: 1,
-          justifyContent: "space-between",
-        }}
-      > */}
       <NavigationContainer>
         <Stack.Navigator
           initialRouteName="DiaryList"
@@ -113,10 +107,7 @@ export default function App() {
           <Stack.Screen name="DiaryEdit" component={DiaryEditScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-      {/* <View > */}
       <MyAdmob size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
-      {/* </View> */}
-      {/* </SafeAreaView> */}
     </SafeAreaProvider>
   );
 }

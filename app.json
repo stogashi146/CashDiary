@@ -1,45 +1,8 @@
 {
-  "expo": {
-    "name": "CashDiary",
-    "slug": "CashDiary",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "CashDiary"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-dev-client"
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "37bd0bdd-9fcf-4920-9eb6-e0719abf55c9"
-      }
+    "react-native-google-mobile-ads": {
+      "ios_app_id": "ca-app-pub-1960325867255103~6924132194",
+      "android_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx",
+      "delay_app_measurement_init": true,
+      "user_tracking_usage_description": "許可することで、より関連性の高い広告を表示することができるようになります。"
     }
-  },
-  "react-native-google-mobile-ads": {
-    "android_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx",
-    "ios_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx",
-    "delay_app_measurement_init": true,
-    "user_tracking_usage_description": "許可することで、より関連性の高い広告を表示することができるようになります。"
-  }
 }

@@ -4,6 +4,7 @@ import {
   AdsConsentDebugGeography,
   AdsConsentStatus,
 } from "react-native-google-mobile-ads";
+import { admobConfig } from "../utils/Constants";
 
 export const AdMob = () => {
   // トラッキング可否を保持する。これをContextなどに持たせて他の画面でも利用する
@@ -14,7 +15,10 @@ export const AdMob = () => {
     // ATTとGDPRの同意状態を取得
     AdsConsent.requestInfoUpdate({
       debugGeography: AdsConsentDebugGeography.EEA, // EU圏としてテストする設定
-      testDeviceIdentifiers: ["TEST-DEVICE-HASHED-ID"],
+      testDeviceIdentifiers: [
+        admobConfig.testIphoneDeviceId,
+        admobConfig.testIpadDeviceId,
+      ],
     }).then(async (consentInfo) => {
       let status = consentInfo.status;
       if (
