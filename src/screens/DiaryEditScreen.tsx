@@ -24,10 +24,7 @@ import { BalanceList } from "../components/BalanceList";
 import { DB_NAME } from "../../config/database";
 import { useCalcAmountSummary } from "../hooks/useCalcAmountSummary";
 import { useFetchDiaryBalance } from "../hooks/useFetchDiaryBalance";
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from "react-native-safe-area-context";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 type RouteParams = {
@@ -38,7 +35,7 @@ export const DiaryEditScreen: React.FC<RouteParams> = () => {
   const route = useRoute();
 
   const { diaryId } = route.params as RouteParams;
-  const insets = useSafeAreaInsets();
+  // const insets = useSafeAreaInsets();
 
   const [diaryEntry, setDiaryEntry] = useState<DiaryData>({
     date: formatDateToYYYYMMDD(new Date()),
@@ -149,7 +146,20 @@ export const DiaryEditScreen: React.FC<RouteParams> = () => {
         return Alert.alert("日記・家計簿の更新に失敗しました");
       },
       () => {
-        Alert.alert("日記・家計簿を更新に成功しました");
+        Alert.alert(
+          "日記・家計簿を更新に成功しました",
+          "詳細画面に遷移します",
+          [
+            {
+              text: "OK",
+              onPress: () => {
+                navigation.navigate("DiaryDetail", {
+                  diaryId: diaryId,
+                });
+              },
+            },
+          ]
+        );
       }
     );
   };
@@ -200,27 +210,18 @@ export const DiaryEditScreen: React.FC<RouteParams> = () => {
           <DiaryEntryForm diary={diaryEntry} handleSetDiary={handleSetDiary} />
         </ScrollView>
       ) : (
-        <View>
-          <SafeAreaProvider>
-            <SafeAreaView
-              style={{
-                flex: 1,
-                justifyContent: "space-between",
-              }}
-            >
-              <View>
-                <BalanceSummary amountSummary={amountSummary} />
-                <GrayBar style={{ justifyContent: "center" }}></GrayBar>
-                <BalanceList
-                  balances={balances}
-                  handleDeleteBalance={handleDeleteBalance}
-                />
-              </View>
-              <View>
-                <AddBalance handleCreateBalance={handleCreateBalance} />
-              </View>
-            </SafeAreaView>
-          </SafeAreaProvider>
+        <View style={styles.balanceContainer}>
+          <View>
+            <BalanceSummary amountSummary={amountSummary} />
+            <GrayBar style={{ justifyContent: "center" }}></GrayBar>
+            <BalanceList
+              balances={balances}
+              handleDeleteBalance={handleDeleteBalance}
+            />
+          </View>
+          <View style={styles.addBalanceButton}>
+            <AddBalance handleCreateBalance={handleCreateBalance} />
+          </View>
         </View>
       )}
     </KeyboardAvoidingView>
@@ -239,5 +240,12 @@ const styles = StyleSheet.create({
     width: "80%",
     marginTop: 10,
     marginBottom: 10,
+  },
+  balanceContainer: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  addBalanceButton: {
+    marginBottom: 5,
   },
 });

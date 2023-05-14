@@ -39,7 +39,6 @@ export default function App() {
   // ※ trueでトラッキングしない。falseでトラッキングする
   const [nonPersonalizedOnly, setNonPersonalizedOnly] = useState(true);
   // const navigation = useNavigation();
-  const insets = useSafeAreaInsets();
 
   if (error) {
     console.log("Error: " + error);
@@ -76,43 +75,48 @@ export default function App() {
   }, []);
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView
+    <SafeAreaProvider
+      style={{
+        flex: 1,
+        justifyContent: "space-between",
+      }}
+    >
+      {/* <SafeAreaView
         style={{
           flex: 1,
           justifyContent: "space-between",
         }}
-      >
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="DiaryList"
-            screenOptions={{
-              headerStyle: { backgroundColor: "#F0F4F8" },
-              headerTitleStyle: { color: "#525252" },
-              headerTintColor: "#525252",
-              headerTitle: "CashDiary",
-              headerBackTitle: "Back",
-              headerBackTitleStyle: { color: "#525252", fontSize: 16 },
-              // iOSとAndroidで遷移時のアニメーションを統一
-              cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      > */}
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="DiaryList"
+          screenOptions={{
+            headerStyle: { backgroundColor: "#F0F4F8" },
+            headerTitleStyle: { color: "#525252" },
+            headerTintColor: "#525252",
+            headerTitle: "CashDiary",
+            headerBackTitle: "Back",
+            headerBackTitleStyle: { color: "#525252", fontSize: 16 },
+            // iOSとAndroidで遷移時のアニメーションを統一
+            cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+          }}
+        >
+          <Stack.Screen
+            name="DiaryList"
+            component={DiaryListScreen}
+            options={{
+              headerLeft: () => null, // 戻るボタンを非表示にする
             }}
-          >
-            <Stack.Screen
-              name="DiaryList"
-              component={DiaryListScreen}
-              options={{
-                headerLeft: () => null, // 戻るボタンを非表示にする
-              }}
-            />
-            <Stack.Screen name="DiaryCreate" component={DiaryCreateScreen} />
-            <Stack.Screen name="DiaryDetail" component={DiaryDetailScreen} />
-            <Stack.Screen name="DiaryEdit" component={DiaryEditScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-        <View style={{ paddingBottom: insets.bottom }}>
-          <MyAdmob size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
-        </View>
-      </SafeAreaView>
+          />
+          <Stack.Screen name="DiaryCreate" component={DiaryCreateScreen} />
+          <Stack.Screen name="DiaryDetail" component={DiaryDetailScreen} />
+          <Stack.Screen name="DiaryEdit" component={DiaryEditScreen} />
+        </Stack.Navigator>
+      </NavigationContainer>
+      {/* <View > */}
+      <MyAdmob size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
+      {/* </View> */}
+      {/* </SafeAreaView> */}
     </SafeAreaProvider>
   );
 }

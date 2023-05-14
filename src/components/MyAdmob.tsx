@@ -5,6 +5,7 @@ import {
   BannerAdSize,
   TestIds,
 } from "react-native-google-mobile-ads";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 // import { PremiumContext, TrackingContext } from "../../PremiumContext";
 
 interface Props {
@@ -22,12 +23,15 @@ export default function MyAdmob(props: Props) {
     ios: "ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyy",
     android: "ca-app-pub-xxxxxxxxxxxxxxxx/yyyyyyyyyy",
   });
+  const insets = useSafeAreaInsets();
 
   return (
-    <BannerAd
-      {...props}
-      unitId={unitId}
-      // requestOptions={{ requestNonPersonalizedAdsOnly: !!nonPersonalizedOnly }}
-    />
+    <View style={{ paddingBottom: insets.bottom }}>
+      <BannerAd
+        {...props}
+        unitId={unitId}
+        // requestOptions={{ requestNonPersonalizedAdsOnly: !!nonPersonalizedOnly }}
+      />
+    </View>
   );
 }

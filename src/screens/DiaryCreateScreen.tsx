@@ -169,27 +169,18 @@ export const DiaryCreateScreen: React.FC = () => {
           <DiaryEntryForm diary={diaryEntry} handleSetDiary={handleSetDiary} />
         </ScrollView>
       ) : (
-        <View>
-          <SafeAreaProvider>
-            <SafeAreaView
-              style={{
-                flex: 1,
-                justifyContent: "space-between",
-              }}
-            >
-              <View>
-                <BalanceSummary amountSummary={amountSummary} />
-                <GrayBar style={{ justifyContent: "center" }}></GrayBar>
-                <BalanceList
-                  balances={balances}
-                  handleDeleteBalance={handleDeleteBalance}
-                />
-              </View>
-              <View>
-                <AddBalance handleCreateBalance={handleCreateBalance} />
-              </View>
-            </SafeAreaView>
-          </SafeAreaProvider>
+        <View style={styles.balanceContainer}>
+          <View>
+            <BalanceSummary amountSummary={amountSummary} />
+            <GrayBar style={{ justifyContent: "center" }}></GrayBar>
+            <BalanceList
+              balances={balances}
+              handleDeleteBalance={handleDeleteBalance}
+            />
+          </View>
+          <View style={styles.addBalanceButton}>
+            <AddBalance handleCreateBalance={handleCreateBalance} />
+          </View>
         </View>
       )}
     </KeyboardAvoidingView>
@@ -211,5 +202,9 @@ const styles = StyleSheet.create({
   },
   balanceContainer: {
     flex: 1,
+    justifyContent: "space-between",
+  },
+  addBalanceButton: {
+    marginBottom: 5,
   },
 });
