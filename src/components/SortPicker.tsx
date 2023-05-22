@@ -34,7 +34,7 @@ export const SortPicker: React.FC<SortPickerProps> = (props) => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
-        style={{ minHeight: 20 }}
+        style={{ minHeight: 20, minWidth: 1 }}
         containerStyle={styles.sortDropDown}
         placeholder="新しい順"
       />

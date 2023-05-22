@@ -40,12 +40,6 @@ export default ({ config }) => ({
       "eas": {
         "projectId": "37bd0bdd-9fcf-4920-9eb6-e0719abf55c9"
       }
-    },
-    "react-native-google-mobile-ads": {
-      "ios_app_id": process.env.APP_ID,
-      "android_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx",
-      "delay_app_measurement_init": true,
-      "user_tracking_usage_description": "許可することで、より関連性の高い広告を表示することができるようになります。",
     }
   }
 });

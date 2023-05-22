@@ -107,7 +107,7 @@ export default function App() {
           <Stack.Screen name="DiaryEdit" component={DiaryEditScreen} />
         </Stack.Navigator>
       </NavigationContainer>
-      <MyAdmob size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} />
+      {/* <MyAdmob size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER} /> */}
     </SafeAreaProvider>
   );
 }

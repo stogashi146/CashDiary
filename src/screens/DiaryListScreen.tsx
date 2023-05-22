@@ -12,6 +12,7 @@ import { DB_NAME } from "../../config/database";
 import { formatDateToYYYYMMIso } from "../utils/DateFormat";
 import { SORT_TYPE, SortType } from "../constants/SortTypeContants";
 import { Alert } from "react-native";
+import { DiaryBalanceData } from "../types/DiaryBalanceData";
 
 interface DiaryListScreenProps {
   navigation: any;
@@ -56,7 +57,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
 
   const onFocus = useCallback(() => {
     fetchDiaryBalances();
-  }, []);
+  }, [currentMonth]);
   // 詳細画面から戻った際に再度fetchする
   useFocusEffect(onFocus);
 
@@ -223,6 +224,7 @@ export const DiaryListScreen: React.FC<DiaryListScreenProps> = () => {
         return "zero";
     }
   };
+  console.log(currentMonth);
 
   return (
     <View style={styles.container}>

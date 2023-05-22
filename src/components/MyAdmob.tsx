@@ -29,6 +29,7 @@ export default function MyAdmob(props: Props) {
     <View style={{ paddingBottom: insets.bottom }}>
       <BannerAd
         {...props}
+        // ここの環境変数が{}になっていることが原因でエラーになっている
         unitId={admobConfig.bannerId}
         // requestOptions={{ requestNonPersonalizedAdsOnly: !!nonPersonalizedOnly }}
       />

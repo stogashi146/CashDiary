@@ -1,8 +1,0 @@
-{
-    "react-native-google-mobile-ads": {
-      "ios_app_id": "ca-app-pub-1960325867255103~6924132194",
-      "android_app_id": "ca-app-pub-xxxxxxxx~xxxxxxxx",
-      "delay_app_measurement_init": true,
-      "user_tracking_usage_description": "許可することで、より関連性の高い広告を表示することができるようになります。"
-    }
-}

@@ -1,5 +1,5 @@
 // diaryとbalanceのデータを結合するための型
-interface DiaryBalanceData {
+export interface DiaryBalanceData {
   id?: number;
   date: string;
   title: string;

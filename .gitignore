@@ -78,4 +78,6 @@ dist/
 # env
 .env
 
+
+app.json
 # @end expo-cli
