@@ -7,16 +7,12 @@ import {
   Platform,
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
   View,
 } from "react-native";
-import SegmentedControl from "@react-native-segmented-control/segmented-control";
-import { IncomeExpenseTotal } from "../components/IncomeExpenseTotal";
+
 import { BalanceSummary } from "../components/BalanceSummary";
 import { AddBalance } from "../components/AddBalance";
 import { DiaryEntryForm } from "../components/DiaryEntryForm";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from "@react-navigation/native";
 import { AntDesign } from "@expo/vector-icons";
 import {
@@ -24,10 +20,10 @@ import {
   formatDateToYYYYMMDD,
 } from "../utils/DateFormat";
 import { GrayBar } from "../components/GrayBar";
-import { useInsertDiary } from "../hooks/useInsertDiary";
 import { BalanceList } from "../components/BalanceList";
 import { DB_NAME } from "../../config/database";
 import { useCalcAmountSummary } from "../hooks/useCalcAmountSummary";
+import SegmentedControl from "@react-native-segmented-control/segmented-control";
 
 export const DiaryCreateScreen: React.FC = () => {
   // タブ切り替え 0:日記 1:家計簿

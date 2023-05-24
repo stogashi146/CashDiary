@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import * as SQLite from "expo-sqlite";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { DiaryList } from "../components/DiaryList";
 import { MonthSelect } from "../components/MonthSelect";
 import { BalanceSummary } from "../components/BalanceSummary";

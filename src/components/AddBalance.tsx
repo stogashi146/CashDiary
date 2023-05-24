@@ -8,13 +8,11 @@ import {
   StyleSheet,
   Text,
   TextInput,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { CheckBox } from "@rneui/themed";
-import { Button } from "@rneui/base";
 import { AntDesign } from "@expo/vector-icons";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { SquareButton } from "./SquareButton";
 
 interface AddBalanceProps {
@@ -59,7 +57,7 @@ export const AddBalance: React.FC<AddBalanceProps> = (props) => {
         style={{
           // position: "relative",
           // bottom: -100,
-          // marginTop: 20,
+          paddingBottom: 20,
           width: "85%",
           alignSelf: "center",
         }}

@@ -1,6 +1,6 @@
 import React from "react";
 import { ReactNode } from "react";
-import { StyleSheet, Text, View, ViewStyle } from "react-native";
+import { StyleSheet, View, ViewStyle } from "react-native";
 
 interface grayBarProps {
   children?: ReactNode;

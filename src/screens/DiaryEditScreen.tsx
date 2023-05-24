@@ -24,8 +24,6 @@ import { BalanceList } from "../components/BalanceList";
 import { DB_NAME } from "../../config/database";
 import { useCalcAmountSummary } from "../hooks/useCalcAmountSummary";
 import { useFetchDiaryBalance } from "../hooks/useFetchDiaryBalance";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 type RouteParams = {
   diaryId: number;

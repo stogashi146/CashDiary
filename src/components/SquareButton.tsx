@@ -1,7 +1,7 @@
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import { Button } from "@rneui/base";
-import { StyleSheet, StyleSheetProperties, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 
 interface ButtonProps {
   onPress?: () => void;

@@ -1,18 +1,18 @@
 import * as SQLite from "expo-sqlite";
 import React, { useEffect, useState } from "react";
 import {
-  Alert,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { SortType } from "../constants/SortTypeContants";
 import { AntDesign } from "@expo/vector-icons";
 import { DB_NAME } from "../../config/database";
+import { DiaryBalanceData } from "../types/DiaryBalanceData";
 
 interface DiaryListProps {
   diaryBalances: DiaryBalanceData[];
@@ -35,9 +35,9 @@ export const DiaryList: React.FC<DiaryListProps> = (props) => {
       setSortedBalances(
         balances.sort((a, b) => {
           if (a.date > b.date) {
-            return -1;
-          } else {
             return 1;
+          } else {
+            return -1;
           }
         })
       );
@@ -45,9 +45,9 @@ export const DiaryList: React.FC<DiaryListProps> = (props) => {
       setSortedBalances(
         balances.sort((a, b) => {
           if (a.date < b.date) {
-            return -1;
-          } else {
             return 1;
+          } else {
+            return -1;
           }
         })
       );
