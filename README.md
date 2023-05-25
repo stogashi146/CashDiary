@@ -39,6 +39,9 @@ Fimgaで作成しました
 - react-native-modal-datetime-picker: 14.0.1→ 日付選択モーダル
 - react-native-dotenv: 3.4.8　→　環境変数の設定
 
+## デプロイ
+EAS
+
 ## 使用素材
 【AppStoreアイコン】
 - ICOOON MONO
@@ -50,4 +53,9 @@ https://www.canva.com/
 
 ## 参考にした教材
 [React Native, Firebase, Expo でアプリ開発をゼロから始めよう！](https://www.udemy.com/course/react-native-ios-android/)
+
+## その他
+本アプリを開発する上での知見、課題等はQiitaに記載しました。
+
+
 
