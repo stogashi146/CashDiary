@@ -3,7 +3,7 @@
 ![名称未設定のデザイン](https://github.com/stogashi146/CashDiary/assets/83628316/f10c246a-5eec-4e89-9b79-b1ba3dacacf2)
 
 ## 対象プラットフォーム
-iOS: [AppStore](https://apps.apple.com/us/app/%E5%AE%B6%E8%A8%88%E7%B0%BF%E6%97%A5%E8%A8%98-cashdiary/id6449430082)
+iOS: [AppStore](https://apps.apple.com/jp/app/id6449430082)
 
 ## 概要
 日記と家計簿を同時に管理できるサービスです。
